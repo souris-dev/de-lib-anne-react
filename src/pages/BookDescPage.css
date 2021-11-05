@@ -1,0 +1,44 @@
+@media (min-width: 1024px) {
+  .book-img {
+    max-height: 70vh !important;
+  }
+}
+
+.min-h-90vh {
+    height: 90vh;
+}
+
+.review-bg {
+  background-color: #222222;
+}
+
+.border-review-inp {
+  border-color: #444444;
+  border-bottom-width: 1px;
+  transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
+  height: 4rem;
+}
+
+.border-review-inp:focus {
+  border-color: #fffd7d;
+  background-color: #232323;
+  border-top-left-radius: 0.6rem;
+  border-top-right-radius: 0.6rem;
+  outline: none;
+  border-bottom-width: 1px;
+  height: 8rem;
+}
+
+.border-rev-btn {
+  border-color: #fffd7d80;
+  border-width: 1px;
+  color: white;
+  transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.6s;
+}
+
+.border-rev-btn:hover {
+  border-color: #fffd7d;
+  background-color: #fffd7d;
+  color: black;
+  border-width: 1px;
+}
