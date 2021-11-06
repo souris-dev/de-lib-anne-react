@@ -9,14 +9,11 @@ export function SignUpPage() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [tags, setTags] = useState([]);
 
-  const firstPageSubmit = (submitEvent) => {
-    submitEvent.preventDefault();
-    setIsFlipped(!isFlipped);
-  };
-
-  const secondPageSubmit = (submitEvent) => {
-    submitEvent.preventDefault();
-  };
+  const [pageOneInputs, setPageOneInputs] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
 
   return (
     <ReactCardFlip isFlipped={isFlipped}>
@@ -49,13 +46,23 @@ export function SignUpPage() {
               <div>
                 <h3>SIGN UP</h3>
                 <Formik
-                  initialValues={{ username: "", email: "", password: "", confpassword: "" }}
+                  initialValues={{
+                    username: "",
+                    email: "",
+                    password: "",
+                    confpassword: "",
+                  }}
                   validate={(values) => {
                     const errors = {};
 
+                    // Username validation
+                    if (!values.username) {
+                      errors.username = "Username is required.";
+                    }
+
                     // email validation
                     if (!values.email) {
-                      errors.email = "Required";
+                      errors.email = "Email is required.";
                     } else if (
                       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
                         values.email
@@ -65,25 +72,68 @@ export function SignUpPage() {
                     }
 
                     // password validation
-                    if (password != confpassword) {
+                    if (!values.password) {
+                      errors.password = "Password is required.";
+                    }
+
+                    if (values.password != values.confpassword) {
                       errors.confpassword = "Passwords do not match.";
                     }
 
                     return errors;
                   }}
-                  onSubmit={() => { }}
+                  onSubmit={(values, { setSubmitting }) => {
+                    setPageOneInputs({
+                      username: values.username,
+                      email: values.email,
+                      password: values.password,
+                    });
+                    setSubmitting(false);
+                    setIsFlipped(true);
+                  }}
                 >
                   {({ isSubmitting }) => (
                     <Form>
-                      <Field type="text" placeholder="USERNAME" name="username" />
+                      <Field
+                        type="text"
+                        placeholder="USERNAME"
+                        name="username"
+                      />
+                      <ErrorMessage name="username">
+                        {(msg) => (
+                          <div className="text-red-700 text-sm">{msg}</div>
+                        )}
+                      </ErrorMessage>
                       <Field type="email" placeholder="EMAIL" name="email" />
-                      <ErrorMessage name="email" component="div" />
-                      <Field type="password" placeholder="PASSWORD" name="password" />
-                      <Field type="password" placeholder="CONFIRM PASSWORD" name="confpassword" />
-                      <ErrorMessage name="confpassword" component="div" />
+                      <ErrorMessage name="email">
+                        {(msg) => (
+                          <div className="text-red-700 text-sm">{msg}</div>
+                        )}
+                      </ErrorMessage>
+                      <Field
+                        type="password"
+                        placeholder="PASSWORD"
+                        name="password"
+                      />
+                      <ErrorMessage name="password">
+                        {(msg) => (
+                          <div className="text-red-700 text-sm">{msg}</div>
+                        )}
+                      </ErrorMessage>
+                      <Field
+                        type="password"
+                        placeholder="CONFIRM PASSWORD"
+                        name="confpassword"
+                      />
+                      <ErrorMessage name="confpassword">
+                        {(msg) => (
+                          <div className="text-red-700 text-sm">{msg}</div>
+                        )}
+                      </ErrorMessage>
                       <button
+                        type="submit"
+                        disabled={isSubmitting}
                         className="submit submit-btn-next"
-                        onClick={() => setIsFlipped(!isFlipped)}
                       >
                         Next
                       </button>
@@ -126,7 +176,7 @@ export function SignUpPage() {
             <div className="contact">
               <div>
                 <h3>SIGN UP</h3>
-                <form onSubmit={secondPageSubmit}>
+                <form onSubmit={(e) => e.preventDefault()}>
                   Please select the genres you are interested in:
                   <div>
                     <SelectableTags
