@@ -30,7 +30,7 @@ export function SignInPage() {
           </div>
           <div className="contact">
             <div>
-              <h3>SIGN UP</h3>
+              <h3>SIGN IN</h3>
               <input type="text" placeholder="USERNAME" />
               <input type="password" placeholder="PASSWORD" />
               <p>

@@ -4,8 +4,10 @@ import "./SignUp.css";
 import ReactCardFlip from "react-card-flip";
 import { SelectableTags } from "../components/SignUp/SelectableTags";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useNavigate } from "react-router";
 
 export function SignUpPage() {
+  const navigate = useNavigate();
   const [isFlipped, setIsFlipped] = useState(false);
   const [tags, setTags] = useState([]);
 
@@ -22,7 +24,7 @@ export function SignUpPage() {
           <div className="left">
             <div className="top_link">
               <button
-                onClick={() => setIsFlipped(!isFlipped)}
+                onClick={() => navigate(-1) }
                 className="flex flex-row"
               >
                 <svg
