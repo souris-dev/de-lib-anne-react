@@ -1,0 +1,95 @@
+#flex-con {
+  display: flex;
+  justify-content: space-between;
+  width: 99vw;
+}
+.body {
+  /* background-color: rgba(22, 14, 14, 0.9); */
+  /* background: radial-gradient(at top left, 20%, rgb(49, 32, 32), #1b1b1b); */
+  /* background: radial-gradient(at top left, #3b555d, #233237); */
+  background: radial-gradient(100% 196.89% at 0.54% 0%, #2B2B2B 13.02%, #1F1611 92.19%);
+}
+#color-bg {
+  display: flex;
+  justify-content: center;
+  width: 50vw;
+  align-items: center;
+}
+#content {
+  text-align: center;
+  color: #fffbef;
+}
+#library-name {
+  font-family: "Astloch";
+  color: #fff4e4;
+  text-align: center;
+  font-size: 90px;
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+#anne {
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+#quote {
+  font-family: Roboto;
+  color: #f8efe5;
+  font-size: 25px;
+  margin-top: 15px;
+  letter-spacing: 0.045rem;
+}
+
+#content .buttons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 30%;
+  margin-top: 40px;
+}
+
+#content .buttons a{
+  margin: 1rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: Roboto;
+  text-decoration: none;
+}
+
+#content .buttons a:first-child{
+  color: #f8e7d5;
+  border-radius: 25px;
+  padding: 12px 3.5rem;
+  border: 1px solid #f8e7d5;
+  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#content .buttons a:first-child:hover{
+  box-shadow: 4px 8px 10px #222222
+}
+
+#content .buttons a:last-child{
+  background-color: #f8efe5;
+  color: #24191b;
+  border-radius: 25px;
+  padding: 12px 30px;
+  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#content .buttons a:last-child:hover{
+  box-shadow: 7px 12px 16px #222222
+}
+
+.anim-left {
+  margin-right: 5px;
+  transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.collection:hover > .anim-left {
+  transform: translateX(-5px);
+  -webkit-transform: translateX(-5px);
+  -moz-transform: translateX(-5px);
+  -o-transform: translateX(-5px);
+  -ms-transform: translateX(-5px);
+}

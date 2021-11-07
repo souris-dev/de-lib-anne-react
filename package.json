@@ -7,11 +7,13 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@lottiefiles/react-lottie-player": "^3.4.1",
     "formik": "^2.2.9",
     "history": "^5.1.0",
     "react": "^17.0.0",
     "react-card-flip": "^1.1.3",
     "react-dom": "^17.0.0",
+    "react-lottie": "^1.2.3",
     "react-rating": "^2.0.5",
     "react-reveal": "^1.2.2",
     "react-router-dom": "^6.0.0"
