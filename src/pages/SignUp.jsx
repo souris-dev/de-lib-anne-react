@@ -5,6 +5,7 @@ import ReactCardFlip from "react-card-flip";
 import { SelectableTags } from "../components/SignUp/SelectableTags";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 export function SignUpPage() {
   const navigate = useNavigate();
@@ -23,10 +24,7 @@ export function SignUpPage() {
         <div className="login_box">
           <div className="left">
             <div className="top_link">
-              <button
-                onClick={() => navigate(-1) }
-                className="flex flex-row"
-              >
+              <button onClick={() => navigate(-1)} className="flex flex-row">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   style={{ height: "22px" }}
@@ -132,6 +130,14 @@ export function SignUpPage() {
                           <div className="text-red-700 text-sm">{msg}</div>
                         )}
                       </ErrorMessage>
+
+                      <div className="flex flex-row mt-2 w-full items-center justify-center">
+                        Have an account?{" "}
+                        <Link to="/signin" className="ml-1">
+                          <span className="italic">Sign in.</span>
+                        </Link>
+                      </div>
+
                       <button
                         type="submit"
                         disabled={isSubmitting}
@@ -186,7 +192,7 @@ export function SignUpPage() {
                       tags={["Fantasy", "Gore", "Action", "R18+", "Mystery"]}
                     />
                   </div>
-                  <h2 className="mt-6 font-bold">OTP Verification</h2>
+                  <h2 className="mt-16 font-bold">OTP Verification</h2>
                   Please enter the OTP sent to your email address.{" "}
                   <span className="underline cursor-pointer">Resend OTP</span>
                   <input

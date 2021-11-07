@@ -1,14 +1,17 @@
 import "./SignIn.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export function SignInPage() {
+  const navigate = useNavigate();
+
   return (
     <section className="login">
       <div className="login_box">
         <div className="left">
           <div className="top_link">
             <button
-              onClick={() => setIsFlipped(!isFlipped)}
+              onClick={() => navigate(-1)}
               className="flex flex-row"
             >
               <svg
