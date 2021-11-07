@@ -1,14 +1,17 @@
 import "./SignIn.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export function SignInPage() {
+  const navigate = useNavigate();
+
   return (
     <section className="login">
       <div className="login_box">
         <div className="left">
           <div className="top_link">
             <button
-              onClick={() => setIsFlipped(!isFlipped)}
+              onClick={() => navigate(-1)}
               className="flex flex-row"
             >
               <svg
@@ -30,7 +33,7 @@ export function SignInPage() {
           </div>
           <div className="contact">
             <div>
-              <h3>SIGN UP</h3>
+              <h3>SIGN IN</h3>
               <input type="text" placeholder="USERNAME" />
               <input type="password" placeholder="PASSWORD" />
               <p>
