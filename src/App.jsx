@@ -4,12 +4,13 @@ import { WithNavbarAndFooter } from "./pages/WithNavbarAndFooter";
 import { WishlistPage } from "./pages/WishlistPage";
 import { SignUpPage } from "./pages/SignUp";
 import { SignInPage } from "./pages/SignIn";
+import LandingPage from "./pages/landing";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<div>Lol</div>} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="books" element={<WithNavbarAndFooter />}>
           <Route path=":bookId" element={<BookDescPage />} />
           <Route path="search" element={<div>Search</div>} />
