@@ -4,6 +4,7 @@ import { WithNavbarAndFooter } from "./pages/WithNavbarAndFooter";
 import { WishlistPage } from "./pages/WishlistPage";
 import { SignUpPage } from "./pages/SignUp";
 import { SignInPage } from "./pages/SignIn";
+import { ExplorePage } from "./pages/Explore";
 import LandingPage from "./pages/landing";
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
           <Route path="search" element={<div>Search</div>} />
           <Route path="mywishlist" element={<WishlistPage />} />
           {/*Explore page: */}
-          <Route index element={<div></div>} />
+          <Route index element={<ExplorePage />} />
         </Route>
         <Route path="signin" element={<SignInPage />} />
         <Route path="register" element={<SignUpPage />} />

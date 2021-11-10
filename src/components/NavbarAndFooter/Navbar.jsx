@@ -1,23 +1,24 @@
 import "./Navbar.css";
+import { Link } from "react-router-dom";
 
 export function Navbar() {
   return (
     <nav className="topnav">
       <div className="logo">
-        <a className="active p1" href="#">
+        <Link className="active p1" to="/">
           Anne
-        </a>
+        </Link>
       </div>
       <div className="all-icons">
         <div className="left-buttons">
-          <a
+          <Link
             className="peach p1"
             id="exp"
-            href="#"
+            to="/books"
             style={{ fontSize: "17px" }}
           >
             Explore
-          </a>
+          </Link>
           <a className="peach p1" href="#">
             About
           </a>
@@ -27,7 +28,7 @@ export function Navbar() {
             <i className="fas fa-sign-in-alt"></i> Sign In
           </a>
           <form className="nav-search-form">
-            <input type="text" autoFocus autoComplete={false} placeholder="Search" name="search" />
+            <input type="text" autoFocus autoComplete={"no"} placeholder="Search" name="search" />
             <button className="search">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

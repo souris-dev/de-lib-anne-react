@@ -2,7 +2,7 @@ import "./landing.css";
 import { Link } from "react-router-dom";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
 import * as animationData from "../assets/landingImage.json";
-import { Navbar } from "../components/Navbar/Navbar";
+import { Navbar } from "../components/NavbarAndFooter/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
