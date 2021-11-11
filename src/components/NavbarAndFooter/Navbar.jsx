@@ -27,7 +27,7 @@ export function Navbar() {
           <a className="login" href="#">
             <i className="fas fa-sign-in-alt"></i> Sign In
           </a>
-          <form className="nav-search-form">
+          <form className="nav-search-form" action="/books/search">
             <input type="text" autoFocus autoComplete={"no"} placeholder="Search" name="search" />
             <button className="search">
               <svg

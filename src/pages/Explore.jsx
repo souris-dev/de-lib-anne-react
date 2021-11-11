@@ -24,7 +24,7 @@ export function ExplorePage() {
   useEffect(() => {
     setBooks([
       {
-        section: "Recent",
+        section: "Recommended",
         books: [
           {
             bookTitle: "The Guest List",

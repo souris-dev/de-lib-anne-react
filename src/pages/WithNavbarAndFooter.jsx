@@ -1,4 +1,5 @@
 import { Outlet } from "react-router";
+import { Footer } from "../components/NavbarAndFooter/Footer";
 import { Navbar } from "../components/NavbarAndFooter/Navbar";
 
 export function WithNavbarAndFooter() {
@@ -6,6 +7,7 @@ export function WithNavbarAndFooter() {
     <>
       <Navbar />
       <Outlet />
+      <Footer />
     </>
   );
 }
