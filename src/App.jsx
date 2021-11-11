@@ -4,6 +4,8 @@ import { WithNavbarAndFooter } from "./pages/WithNavbarAndFooter";
 import { WishlistPage } from "./pages/WishlistPage";
 import { SignUpPage } from "./pages/SignUp";
 import { SignInPage } from "./pages/SignIn";
+import { ExplorePage } from "./pages/Explore";
+import { SearchPage } from "./pages/SearchPage";
 import LandingPage from "./pages/landing";
 
 function App() {
@@ -13,10 +15,12 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="books" element={<WithNavbarAndFooter />}>
           <Route path=":bookId" element={<BookDescPage />} />
-          <Route path="search" element={<div>Search</div>} />
+          <Route path="search" element={<Outlet />}>
+            <Route path=":searchTerm" element={<SearchPage />} />
+          </Route>
           <Route path="mywishlist" element={<WishlistPage />} />
           {/*Explore page: */}
-          <Route index element={<div></div>} />
+          <Route index element={<ExplorePage />} />
         </Route>
         <Route path="signin" element={<SignInPage />} />
         <Route path="register" element={<SignUpPage />} />

@@ -1,0 +1,48 @@
+.card {
+  background-color: #3f3f3f;
+  height: 450px;
+  max-width: 300px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+.card-fixed-width {
+  width: 300px;
+}
+
+.card:hover {
+  transform: translateY(-18px);
+}
+
+.card .booktitle {
+  font-family: "Noto Serif Display", serif;
+  letter-spacing: 0.07rem;
+  font-weight: 300;
+  color: #efefef;
+  display: block;
+}
+
+.card .bookauthor {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.04rem;
+  color: #989898;
+}
+
+.card .h-70percent {
+  height: 70%;
+}
+
+.card .bookpreview {
+  background-image: url("../assets/explore-page/book-prev.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.card .rating-comp .dot {
+  height: 13px;
+  width: 13px;
+  background-color: #292929;
+  border-radius: 50%;
+  display: inline-block;
+}
