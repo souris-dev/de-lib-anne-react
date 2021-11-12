@@ -19,14 +19,14 @@ export function Navbar() {
           >
             Explore
           </Link>
-          <a className="peach p1" href="#">
+          <Link className="peach p1" to="/">
             About
-          </a>
+          </Link>
         </div>
         <div className="right-buttons">
-          <a className="login" href="#">
+          <Link className="login" to="/signin">
             <i className="fas fa-sign-in-alt"></i> Sign In
-          </a>
+          </Link>
           <form className="nav-search-form" action="/books/search">
             <input type="text" autoFocus autoComplete={"no"} placeholder="Search" name="search" />
             <button className="search">
