@@ -6,6 +6,7 @@ import { SelectableTags } from "../components/SignUp/SelectableTags";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import { postData, toApiEndpoint } from "../utils/serverFetchUtils";
 
 export function SignUpPage() {
   const navigate = useNavigate();
@@ -17,6 +18,29 @@ export function SignUpPage() {
     email: "",
     password: "",
   });
+
+  const postUserData = () => {
+    postData(toApiEndpoint("createuser"), {
+      username: pageOneInputs.username,
+      email: pageOneInputs.email,
+      password: pageOneInputs.password,
+      interests: tags,
+    }).then((response) => {
+      switch (response.message) {
+        case "User with same email already exists":
+          alert("User with same email already exists!");
+          break;
+        
+        case "User created":
+          navigate("/books");
+          break;
+        
+        default:
+          console.log(response.message); // debug
+          alert("Something went wrong. Please try again.");
+      }
+    });
+  };
 
   return (
     <ReactCardFlip isFlipped={isFlipped}>
@@ -189,10 +213,12 @@ export function SignUpPage() {
                   <div>
                     <SelectableTags
                       onClick={(tags) => setTags(tags)}
-                      tags={["Fantasy", "Gore", "Action", "R18+", "Mystery"]}
+                      tags={["Fantasy", "Fiction", "Non-fiction", "Thriller", "Mystery", "Action"]}
                     />
                   </div>
-                  <h2 className="mt-16 font-bold">OTP Verification</h2>
+                  <h2 className="mt-16 font-bold text-black">
+                    OTP Verification
+                  </h2>
                   Please enter the OTP sent to your email address.{" "}
                   <span className="underline cursor-pointer">Resend OTP</span>
                   <input
@@ -200,7 +226,12 @@ export function SignUpPage() {
                     placeholder="6-digit OTP"
                     onChange={() => {}}
                   />
-                  <button className="submit submit-btn-next" onClick={() => {}}>
+                  <button
+                    className="submit submit-btn-next"
+                    onClick={() => {
+                      postUserData();
+                    }}
+                  >
                     Register
                   </button>
                 </form>

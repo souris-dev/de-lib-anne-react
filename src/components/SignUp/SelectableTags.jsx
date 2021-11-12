@@ -1,17 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SelectableTag = (props) => {
-  const [isOn, setIsOn] = useState(false);
-
-  const handleToggle = () => {
-    setIsOn(!isOn, () => props.onClick(props.tag));
-  };
-
   return (
     <div
-      onClick={handleToggle}
+      onClick={() => props.onClick(props.tag)}
       className={`cursor-pointer ${
-        isOn ? "bg-yellow-900 text-white" : "bg-yellow-300 text-black"
+        props.isOn ? "bg-yellow-900 text-white" : "bg-yellow-300 text-black"
       } px-3 mr-3 mt-3 py-1 rounded-lg text-sm flex flex-row item-center my-auto`}
     >
       {props.tag}
@@ -25,16 +19,35 @@ const addOrRemoveTag = (arr, item) =>
 
 export function SelectableTags(props) {
   const [tags, setTags] = useState([]);
+  const [tagIsOn, setTagIsOn] = useState({});
+
+  useEffect(() => {
+    var tagsOnInit = {};
+    props.tags.forEach((tag) => (tagsOnInit[tag] = false));
+
+    setTagIsOn(tagsOnInit);
+  }, []);
+
+  /**
+   * See https://dev.to/stephane/how-to-make-sure-useeffect-catches-array-changes-fm3
+   */
+  useEffect(() => {
+    var tagsOn = {};
+    tags.forEach((tag) => (tagsOn[tag] = true));
+    props.onClick(tags);
+
+    setTagIsOn(tagsOn);
+  }, [JSON.stringify(tags)]);
 
   return (
     <div
       className="flex flex-row flex-wrap"
-      onClick={() => props.onClick(tags)}
     >
       {props.tags.map((tag) => (
         <SelectableTag
           tag={tag}
-          key={Math.random() * 100}
+          key={tag}
+          isOn={tagIsOn[tag] || false}
           onClick={(tagName) => {
             setTags(addOrRemoveTag(tags, tagName));
           }}

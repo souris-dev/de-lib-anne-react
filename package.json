@@ -11,6 +11,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
     "@lottiefiles/react-lottie-player": "^3.4.1",
+    "bcryptjs": "^2.4.3",
     "formik": "^2.2.9",
     "history": "^5.1.0",
     "react": "^17.0.0",

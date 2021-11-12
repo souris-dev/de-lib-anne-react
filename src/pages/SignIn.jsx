@@ -1,19 +1,63 @@
 import "./SignIn.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { postData, toApiEndpoint } from "../utils/serverFetchUtils";
 
 export function SignInPage() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(
+    "Lorem ipsum dolor sit amet adipscing elit. Bulu bulu."
+  );
+  const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+
+  const trySignIn = () => {
+    if (email == "" || password == "") {
+      alert("Please input email and password both.");
+    }
+
+    postData(toApiEndpoint("auth"), {
+      email: email,
+      password: password,
+    }).then((response) => {
+      switch (response.message) {
+        case "User not found":
+          setErrorMessage(
+            "We like guests but with a reservation. User not found."
+          );
+          setErrorMessageVisible(true);
+          break;
+
+        case "Wrong password":
+          setErrorMessage(
+            "The lock did not like the key. Wrong password. LOL."
+          );
+          setErrorMessageVisible(true);
+          break;
+
+        case "Auth OK":
+          navigate("/books");
+          break;
+
+        default:
+          setErrorMessage("Something ceased to be right. Please try again.");
+          setErrorMessageVisible(true);
+      }
+    });
+  };
+
+  useEffect(() => {
+    setErrorMessageVisible(false);
+  }, [email, password]);
 
   return (
     <section className="login">
       <div className="login_box">
         <div className="left">
           <div className="top_link">
-            <button
-              onClick={() => navigate(-1)}
-              className="flex flex-row"
-            >
+            <button onClick={() => navigate(-1)} className="flex flex-row">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 style={{ height: "22px" }}
@@ -34,15 +78,29 @@ export function SignInPage() {
           <div className="contact">
             <div>
               <h3>SIGN IN</h3>
-              <input type="text" placeholder="USERNAME" />
-              <input type="password" placeholder="PASSWORD" />
+              <input
+                type="email"
+                placeholder="EMAIL"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="PASSWORD"
+                onChange={(e) => setPassword(e.target.value)}
+              />
               <p>
                 Don't have an account? <Link to="/register">Register</Link>
               </p>
-              <button
-                className="submit"
-                onClick={() => setIsFlipped(!isFlipped)}
+
+              <p
+                className="text-red-700 font-semibold"
+                style={{
+                  visibility: errorMessageVisible ? "visible" : "hidden",
+                }}
               >
+                {errorMessage}
+              </p>
+              <button className="submit" onClick={trySignIn}>
                 Start Reading
               </button>
             </div>
