@@ -93,7 +93,7 @@ export function SignInPage() {
               </p>
 
               <p
-                className="text-red-700 font-semibold"
+                className="font-semibold text-red-700"
                 style={{
                   visibility: errorMessageVisible ? "visible" : "hidden",
                 }}

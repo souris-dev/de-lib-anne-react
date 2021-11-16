@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import React from "react";
 import "./BookDescPage.css";
 import { ReviewCard } from "../components/ReviewCard/ReviewCard";
 import { Star, Stars, Tags } from "../components/BookDesc/Components";
 import Rating from "react-rating";
 import Fade from "react-reveal/Fade.js";
-import { postData, toApiEndpoint } from "../utils/serverFetchUtils";
+import { getData, postData, toApiEndpoint } from "../utils/serverFetchUtils";
 
 export default function BookDescPage() {
   const [bookDesc, setBookDesc] = useState({
@@ -23,60 +24,23 @@ export default function BookDescPage() {
   const [ratingStarsInput, setRatingStarsInput] = useState(0);
   const [reviewInput, setReviewInput] = useState("");
 
-  postData(toApiEndpoint("book_details"), {
-    isbn13: isbn13
-  })
+  const params = useParams();
 
   useEffect(() => {
-    setBookDesc({
-      ...bookDesc,
-      bookTitle: "Anxious People",
-      author: "Frederik Backman",
-      summary: `Synth chartreuse iPhone lomo cray raw denim brunch everyday
-      carry neutra before they sold out fixie 90's microdosing.
-      Tacos pinterest fanny pack venmo, post-ironic heirloom
-      try-hard pabst authentic iceland.`,
-      nstars: 3,
-      nreviews: 4,
-      isbn13: "9781797105826",
-      olid: "OL28571780M",
-      tags: ["Fantasy", "Drama", "Feel good"],
-    });
-
-    setBookReviews([
-      {
-        reviewText: `Synth chartreuse iPhone lomo cray raw denim brunch everyday
-              carry neutra before they sold out fixie 90's microdosing.
-              Tacos pinterest fanny pack venmo, post-ironic heirloom
-              try-hard pabst authentic iceland.`,
-        nstars: 3,
-        reviewAuthor: "APA CHUCHU",
-      },
-      {
-        reviewText: `Synth chartreuse iPhone lomo cray raw denim brunch everyday
-              carry neutra before they sold out fixie 90's microdosing.
-              Tacos pinterest fanny pack venmo, post-ironic heirloom
-              try-hard pabst authentic iceland.`,
-        nstars: 4,
-        reviewAuthor: "CHIN CHIN CHU",
-      },
-      {
-        reviewText: `Synth chartreuse iPhone lomo cray raw denim brunch everyday
-              carry neutra before they sold out fixie 90's microdosing.
-              Tacos pinterest fanny pack venmo, post-ironic heirloom
-              try-hard pabst authentic iceland.`,
-        nstars: 3,
-        reviewAuthor: "GILGAMESH",
-      },
-      {
-        reviewText: `Synth chartreuse iPhone lomo cray raw denim brunch everyday
-              carry neutra before they sold out fixie 90's microdosing.
-              Tacos pinterest fanny pack venmo, post-ironic heirloom
-              try-hard pabst authentic iceland.`,
-        nstars: 1,
-        reviewAuthor: "JEANNE D'ARC",
-      },
-    ]);
+    getData(toApiEndpoint(`bookdets-reviews?isbn13=${params.bookId}`)).then(
+      (response) => {
+        setBookDesc({
+          bookTitle: response.bookDet.title,
+          summary: response.bookDet.summary,
+          author: response.bookDet.author,
+          nstars: 3,
+          isbn13: response.bookDet.isbn13,
+          olid: response.bookDet.olid,
+          tags: response.bookDet.tags,
+        });
+        setBookReviews(response.reviews);
+      }
+    );
   }, []);
 
   return (
@@ -153,9 +117,9 @@ export default function BookDescPage() {
               {bookReviews.map((review) => (
                 <ReviewCard
                   nstars={review.nstars}
-                  reviewText={review.reviewText}
+                  reviewText={review.review}
                   reviewAuthor={review.reviewAuthor}
-                  key={Math.random() * 100}
+                  key={review._id}
                 />
               ))}
             </div>

@@ -1,10 +1,10 @@
-export const apiUrl = "http://localhost:5000";
+export const apiUrl = "http://localhost:5001";
 export const toApiEndpoint = (endpoint) => apiUrl + "/" + endpoint;
 
-export async function postData(url = "", data = {}, method = "POST") {
+export async function postData(url = "", data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
-    method: method, // *GET, POST, PUT, DELETE, etc.
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
     // mode: 'cors', // no-cors, *cors, same-origin
     // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     // credentials: 'same-origin', // include, *same-origin, omit
@@ -16,4 +16,15 @@ export async function postData(url = "", data = {}, method = "POST") {
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
   return response.json(); // parses JSON response into native JavaScript objects
+}
+
+export async function getData(url = "", data = {}) {
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+  });
+  return response.json();
 }
