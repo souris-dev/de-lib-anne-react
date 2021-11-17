@@ -1,8 +1,12 @@
 import { BookCard } from "../components/BookCard/BookCard";
 import { useState, useEffect } from "react";
 
+import { ThemeContext } from "../ThemeProvider";
+import { useContext } from "react";
+
 export function SearchPage() {
   const [books, setBooks] = useState([]);
+  const { themeData: theme } = useContext(ThemeContext);
 
   useEffect(() => {
     setBooks([
@@ -50,13 +54,28 @@ export function SearchPage() {
   }, []);
 
   return (
-    <div className="mx-7">
+    <div className="mx-7 mb-20">
       <main>
-        <header className="ml-10 mt-10 bigheader">
-          <h1 className="text-5xl tracking-wider text-white">Search Results</h1>
+        <header className="ml-10 mt-16 bigheader">
+          <h1
+            className={`text-5xl ${
+              theme.dark ? "tracking-wider text-white" : "tracking-wide text-gray-900 font-semibold"
+            }`}
+          >
+            Search Results
+          </h1>
           <h2 className="mt-5 text-3xl header-h2 tracking-wide">
-            <span style={{ fontWeight: "100" }}>Results for:{" "}</span>
-            <span style={{ fontWeight: "200" }}>searchterm</span>
+            <span
+              className={`${
+                theme.dark ? "text-white" : "text-gray-900 font-semibold"
+              }`}
+              style={{ fontWeight: theme.dark ? "100" : "400" }}
+            >
+              Results for:{" "}
+            </span>
+            <span className={`${
+                theme.dark ? "text-white" : "text-gray-900 font-semibold"
+              }`} style={{ fontWeight: theme.dark ? "200" : "600" }}>searchterm</span>
           </h2>
         </header>
 
