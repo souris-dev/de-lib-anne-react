@@ -2,11 +2,16 @@ import { useEffect, useState } from "react";
 import "./Explore.css";
 import { BookCard } from "../components/BookCard/BookCard";
 
+import { ThemeContext } from "../ThemeProvider";
+import { useContext } from "react";
+
 const BookSection = (props) => {
+  const { themeData: theme } = useContext(ThemeContext);
+
   return (
-    <section className="mt-10">
-      <div className="ml-10">
-        <h2 className="text-3xl font-sans tracking-wide font-light">
+    <section className={theme.dark ? `mt-10` : `mt-28`}>
+      <div className="-ml-7 bg-gray-700 py-4 w-1/5 mb-16">
+        <h2 className={`ml-16 pl-1 text-3xl ${theme.dark ? "tracking-wide font-light" : "font-semibold text-gray-200"}`}>
           {props.sectionTitle}
         </h2>
       </div>
@@ -20,8 +25,12 @@ const BookSection = (props) => {
 
 export function ExplorePage() {
   const [books, setBooks] = useState([]);
+  const { themeData: theme } = useContext(ThemeContext);
 
   useEffect(() => {
+    if (!theme.dark) {
+      //document.body.style.backgroundColor = "#";
+    }
     setBooks([
       {
         section: "Recommended",
@@ -84,8 +93,8 @@ export function ExplorePage() {
   return (
     <div className="mx-7">
       <main>
-        <header className="ml-10 mt-8 bigheader">
-          <h1 className="text-5xl tracking-wider text-white">Explore</h1>
+        <header className={`ml-10 ${theme.dark ? "mt-8" : "mt-16"} bigheader`}>
+          <h1 className={`text-5xl tracking-wider ${theme.dark ? "text-white" : "font-bold text-gray-800"}`}>Explore</h1>
         </header>
 
         {books.map((sectionObject) => (

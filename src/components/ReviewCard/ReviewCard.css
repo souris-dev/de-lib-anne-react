@@ -1,0 +1,10 @@
+.review-bg {
+  background-color: #222222;
+}
+
+.review-bg-light {
+  background-color: #ffffff;
+  box-shadow: 2px 12px 33px -8px rgba(133, 136, 112, 0.2);
+  -webkit-box-shadow: 2px 12px 33px -8px rgba(133, 136, 112, 0.2);
+  -moz-box-shadow: 2px 12px 33px -8px rgba(133, 136, 112, 0.2);
+}

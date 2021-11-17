@@ -12,18 +12,18 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="books" element={<WithNavbarAndFooter />}>
-          <Route path=":bookId" element={<BookDescPage />} /> {/* ISBN13 */}
-          <Route path="search" element={<Outlet />}>
-            <Route path=":searchTerm" element={<SearchPage />} />
+        <Route exact strict path="/" element={<LandingPage />} />
+        <Route exact strict path="books" element={<WithNavbarAndFooter />}>
+          <Route exact strict path=":bookId" element={<BookDescPage />} /> {/* ISBN13 */}
+          <Route exact strict path="search" element={<Outlet />}>
+            <Route exact strict path=":searchTerm" element={<SearchPage />} />
           </Route>
-          <Route path="mywishlist" element={<WishlistPage />} />
+          <Route exact strict path="mywishlist" element={<WishlistPage />} />
           {/*Explore page: */}
           <Route index element={<ExplorePage />} />
         </Route>
-        <Route path="signin" element={<SignInPage />} />
-        <Route path="register" element={<SignUpPage />} />
+        <Route exact strict path="signin" element={<SignInPage />} />
+        <Route exact strict path="register" element={<SignUpPage />} />
         <Route path="*" element={<div className="text-white">Not Found</div>} />
       </Routes>
     </BrowserRouter>

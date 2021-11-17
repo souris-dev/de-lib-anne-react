@@ -22,10 +22,15 @@ body::-webkit-scrollbar-thumb {
   display: grid;
   grid-template-columns: 1fr 6fr;
   grid-gap: 1rem;
-  height: 10vh; 
-  
+  height: 8vh; 
   align-items: center;
   justify-content: center;
+  margin-bottom: 2vh;
+}
+
+.topnav-bg-black {
+  background-color: #1b1b1b;
+  opacity: 0.8;
 }
 
 .logo{
@@ -70,8 +75,15 @@ body::-webkit-scrollbar-thumb {
 }
 
 .topnav .left-buttons .peach:hover {
-  border-bottom: 2px solid #f2f2f2;
+  border-bottom: 4px solid #f2f2f2;
+  transform: translateY(2px);
 }
+
+.topnav-active-link {
+  border-bottom: 4px solid #f2f2f2;
+  transform: translateY(2px);
+}
+
 .topnav .left-buttons a:first-child {
   font-size: large;
   padding: 1rem;
@@ -120,6 +132,7 @@ body::-webkit-scrollbar-thumb {
 
 .topnav a.peach {
   color: #f8e7d5;
+  height: 8vh;
 }
 
 .topnav a.current {
