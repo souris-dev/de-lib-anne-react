@@ -6,6 +6,20 @@
   transition: all 0.4s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 
+.card-light {
+  background-color: #fbfafd !important;
+  border: 0px solid #d4cec5;
+  box-shadow: 2px 7px 20px -8px rgba(118, 112, 136, 0.2);
+  -webkit-box-shadow: 2px 7px 20px -8px rgba(133, 136, 112, 0.2);
+  -moz-box-shadow: 2px 7px 20px -8px rgba(133, 136, 112, 0.2);
+}
+
+.card-light:hover {
+  box-shadow: 2px 12px 33px -8px rgba(133, 136, 112, 0.2);
+  -webkit-box-shadow: 2px 12px 33px -8px rgba(133, 136, 112, 0.2);
+  -moz-box-shadow: 2px 12px 33px -8px rgba(133, 136, 112, 0.2);
+}
+
 .card-fixed-width {
   width: 300px;
 }
@@ -22,11 +36,25 @@
   display: block;
 }
 
+.card-light .booktitle {
+  color: #463403;
+  font-family: "Inter";
+  font-weight: 400;
+  letter-spacing: 0.01rem;
+}
+
 .card .bookauthor {
   font-family: "Roboto", sans-serif;
   font-weight: 300;
   letter-spacing: 0.04rem;
   color: #989898;
+}
+
+.card-light .bookauthor {
+  font-family: "Noto Serif Display", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.05rem;
+  color: #725505;
 }
 
 .card .h-70percent {
