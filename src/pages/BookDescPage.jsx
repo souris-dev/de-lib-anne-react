@@ -40,11 +40,12 @@ export default function BookDescPage() {
 
     getData(toApiEndpoint(`bookdets-reviews?isbn13=${params.bookId}`)).then(
       (response) => {
+        console.log(response.bookDet.nstars);
         setBookDesc({
           bookTitle: response.bookDet.title,
           summary: response.bookDet.summary,
           author: response.bookDet.author,
-          nstars: 3,
+          nstars: response.bookDet.nstars,
           isbn13: response.bookDet.isbn13,
           olid: response.bookDet.olid,
           tags: response.bookDet.tags,
@@ -117,13 +118,17 @@ export default function BookDescPage() {
           </div>
         </section>
         <div
-          className="min-h-screen text-gray-400 body-font -mx-28 relative"
+          className="relative min-h-screen text-gray-400 body-font -mx-28"
           style={theme.dark ? {} : { backgroundColor: "#f7e9d0" }}
         >
-          {theme.dark ? "" : <div
-            className="absolute w-full h-24 -top-4 bg-cover"
-            style={{ backgroundImage: `url(${waves})` }}
-          ></div>}
+          {theme.dark ? (
+            ""
+          ) : (
+            <div
+              className="absolute w-full h-24 bg-cover -top-4"
+              style={{ backgroundImage: `url(${waves})` }}
+            ></div>
+          )}
           <div className="mx-28">
             <div className="py-24 mx-auto">
               <h1
