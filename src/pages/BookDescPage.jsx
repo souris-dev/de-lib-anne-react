@@ -35,9 +35,9 @@ export default function BookDescPage() {
   const params = useParams();
 
   useEffect(() => {
-    if (!theme.dark) {
-      //document.body.style.backgroundColor = "#ffffff";
-    }
+    // scroll to beginning
+    window.scrollTo(0, 0);
+
     getData(toApiEndpoint(`bookdets-reviews?isbn13=${params.bookId}`)).then(
       (response) => {
         setBookDesc({

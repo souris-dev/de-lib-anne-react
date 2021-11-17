@@ -12,6 +12,10 @@ import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import wave from "../../assets/wave_2.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+// NavLink from react router doesn't seem to work and
+// so active link detection had to be implemented manually
+// Tnis function jus returns a convenient representation
+// given the current location in the URL field of the browser
 const locationToPageName = (pathname) => {
   if (pathname == "/") {
     return "root";
@@ -27,13 +31,15 @@ const locationToPageName = (pathname) => {
 };
 
 export function Navbar() {
-  var location = useLocation();
+  var location = useLocation(); // for getting the URL in the browser's URL field
   const [currPage, setCurrPage] = useState(
     locationToPageName(location.pathname)
   );
 
   var { themeData: theme, setThemeData: setTheme } = useContext(ThemeContext);
 
+  // NavLink from react router doesn't seem to work and
+  // so active link detection had to be implemented manually
   useEffect(() => {
     setCurrPage(locationToPageName(location.pathname));
   }, [location.pathname]);
@@ -66,6 +72,7 @@ export function Navbar() {
             </Link>
           </div>
           <div className="right-buttons">
+            {/* Dark/Light theme toggle */}
             <Toggle
               defaultChecked={!theme.dark}
               onChange={() => setTheme({ dark: !theme.dark })}
@@ -130,7 +137,7 @@ export function Navbar() {
         className="absolute w-full h-96 bg-no-repeat bg-cover"
         style={{
           backgroundImage: `url(${wave})`,
-          opacity: "0.5",
+          opacity: theme.dark ? "0.35" : "0.5",
           zIndex: "-1",
           top: "-5vh",
         }}

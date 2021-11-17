@@ -9,14 +9,14 @@ const BookSection = (props) => {
   const { themeData: theme } = useContext(ThemeContext);
 
   return (
-    <section className={theme.dark ? `mt-10` : `mt-28`}>
-      <div className="-ml-7 bg-gray-700 py-4 w-1/5 mb-16">
+    <section className={theme.dark ? `mt-20` : `mt-28`}>
+      <div className={`-ml-7 ${theme.dark ? "mb-8" : "bg-gray-700 mb-16"} py-4 w-1/5`}>
         <h2 className={`ml-16 pl-1 text-3xl ${theme.dark ? "tracking-wide font-light" : "font-semibold text-gray-200"}`}>
           {props.sectionTitle}
         </h2>
       </div>
 
-      <div className="swiperclassName flex flex-row space-x-10 ml-10 mt-8">
+      <div className={`swiperclassName flex flex-row space-x-10 ml-10`}>
         {props.children}
       </div>
     </section>
@@ -28,9 +28,6 @@ export function ExplorePage() {
   const { themeData: theme } = useContext(ThemeContext);
 
   useEffect(() => {
-    if (!theme.dark) {
-      //document.body.style.backgroundColor = "#";
-    }
     setBooks([
       {
         section: "Recommended",
@@ -91,9 +88,9 @@ export function ExplorePage() {
   }, []);
 
   return (
-    <div className="mx-7">
+    <div className="mx-7 mb-24">
       <main>
-        <header className={`ml-10 ${theme.dark ? "mt-8" : "mt-16"} bigheader`}>
+        <header className={`ml-10 ${theme.dark ? "mt-16" : "mt-16"} bigheader`}>
           <h1 className={`text-5xl tracking-wider ${theme.dark ? "text-white" : "font-bold text-gray-800"}`}>Explore</h1>
         </header>
 
