@@ -1,21 +1,10 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useState } from "react";
 
 const initThemeData = { dark: false };
-export const ThemeContext = createContext(initThemeData);
+export const ThemeContext = createContext();
 
 export function ThemeProvider(props) {
-  const [themeData, dispatchThemeData] = useReducer((currThemeData, action) => {
-    switch (action.switchToTheme) {
-      case "light":
-        return { dark: false };
-      case "dark":
-        return { dark: true };
-      case "toggle":
-        return { dark: !carrThemeData.dark };
-      default:
-        return { dark: true };
-    }
-  }, initThemeData);
+  const [themeData, setThemeData] = useState(initThemeData);
 
   useEffect(() => {
     document.body.style.backgroundColor = themeData.dark
@@ -24,7 +13,7 @@ export function ThemeProvider(props) {
   }, [themeData.dark]);
 
   return (
-    <ThemeContext.Provider value={{ themeData, dispatchThemeData }}>
+    <ThemeContext.Provider value={{ themeData, setThemeData }}>
       {props.children}
     </ThemeContext.Provider>
   );

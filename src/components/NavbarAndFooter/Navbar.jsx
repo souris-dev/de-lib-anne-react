@@ -2,7 +2,15 @@ import "./Navbar.css";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
+import "react-toggle/style.css";
+import Toggle from "react-toggle";
+
+import { ThemeContext } from "../../ThemeProvider";
+import { useContext } from "react";
+import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
+
 import wave from "../../assets/wave_2.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const locationToPageName = (pathname) => {
   if (pathname == "/") {
@@ -24,13 +32,19 @@ export function Navbar() {
     locationToPageName(location.pathname)
   );
 
+  var { themeData: theme, setThemeData: setTheme } = useContext(ThemeContext);
+
   useEffect(() => {
     setCurrPage(locationToPageName(location.pathname));
   }, [location.pathname]);
 
   return (
-    <>
-      <nav className={`topnav w-full z-50 ${currPage == "root" ? "" : "topnav-bg-black"}`}>
+    <div className="relative">
+      <nav
+        className={`topnav w-full z-50 ${
+          currPage == "root" ? "" : "topnav-bg-black"
+        }`}
+      >
         <div className="logo">
           <Link className="active p1" to="/">
             Anne
@@ -52,6 +66,34 @@ export function Navbar() {
             </Link>
           </div>
           <div className="right-buttons">
+            <Toggle
+              defaultChecked={!theme.dark}
+              onChange={() => setTheme({ dark: !theme.dark })}
+              className="dark-theme-toggle"
+              icons={{
+                checked: (
+                  <FontAwesomeIcon
+                    icon={faSun}
+                    color="white"
+                    style={{
+                      marginTop: "-4px",
+                      height: "20px",
+                    }}
+                  />
+                ),
+                unchecked: (
+                  <FontAwesomeIcon
+                    icon={faMoon}
+                    color="white"
+                    style={{
+                      marginTop: "-5px",
+                      paddingRight: "3px",
+                      height: "20px",
+                    }}
+                  />
+                ),
+              }}
+            />
             <Link className="login" to="/signin">
               <i className="fas fa-sign-in-alt"></i> Sign In
             </Link>
@@ -93,6 +135,6 @@ export function Navbar() {
           top: "-5vh",
         }}
       ></div>
-    </>
+    </div>
   );
 }
