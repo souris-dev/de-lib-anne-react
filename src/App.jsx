@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="books" element={<WithNavbarAndFooter />}>
-          <Route path=":bookId" element={<BookDescPage />} />
+          <Route path=":bookId" element={<BookDescPage />} /> {/* ISBN13 */}
           <Route path="search" element={<Outlet />}>
             <Route path=":searchTerm" element={<SearchPage />} />
           </Route>
