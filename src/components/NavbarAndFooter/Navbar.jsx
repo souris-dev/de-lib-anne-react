@@ -77,7 +77,7 @@ export function Navbar() {
           <div className="right-buttons">
             <Link
               className={`${isLandingPageLightTheme() ? "bg-yellow-100 hover:bg-opacity-50 bg-opacity-30 border-yellow-700 border" : "text-gray-200 border-0"} transform translate-x-6 transition-all duration-500 flex flex-row items-center justify-center rounded-xl pt-0"}`}
-              to="/signin"
+              to="/register"
             >
               Sign up
             </Link>
