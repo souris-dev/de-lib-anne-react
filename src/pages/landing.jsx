@@ -24,9 +24,9 @@ function LandingPage() {
               </h1>
               <p id="quote" className={`${theme.dark ? "" : "color-light quote-light"}`}>One stop solution for all the bookish stuff.</p>
               <div className="buttons">
-                <Link to="/signin" className={`signup a-link ${theme.dark ? "" : "a-link-light"}`}>
+                <Link to="/register" className={`signup a-link ${theme.dark ? "" : "a-link-light"}`}>
                   <FontAwesomeIcon icon={faUserPlus} className="mr-3" />
-                  <span className="font-normal">Sign In</span>
+                  <span className="font-normal">Sign up</span>
                 </Link>
                 <Link to="/books" className={`collection a-link ${theme.dark ? "" : "a-link-light"}`}>
                   <FontAwesomeIcon

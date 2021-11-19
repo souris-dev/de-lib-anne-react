@@ -75,8 +75,14 @@ export function Navbar() {
             </Link>
           </div>
           <div className="right-buttons">
+            <Link
+              className={`${isLandingPageLightTheme() ? "bg-yellow-100 hover:bg-opacity-50 bg-opacity-30 border-yellow-700 border" : "text-gray-200 border-0"} transform translate-x-6 transition-all duration-500 flex flex-row items-center justify-center rounded-xl pt-0"}`}
+              to="/signin"
+            >
+              Sign up
+            </Link>
             <Link className="login" to="/signin">
-              <i className="fas fa-sign-in-alt"></i> Sign In
+              Sign in
             </Link>
             <form className="nav-search-form" action="/books/search">
               <input
