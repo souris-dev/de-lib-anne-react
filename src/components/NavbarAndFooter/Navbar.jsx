@@ -2,15 +2,11 @@ import "./Navbar.css";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import "react-toggle/style.css";
-import Toggle from "react-toggle";
-
 import { ThemeContext } from "../../ThemeProvider";
 import { useContext } from "react";
-import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 
 import wave from "../../assets/wave_2.svg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ThemeSwitch } from "../ThemeSwitch/ThemeSwitch";
 
 // NavLink from react router doesn't seem to work and
 // so active link detection had to be implemented manually
@@ -72,35 +68,6 @@ export function Navbar() {
             </Link>
           </div>
           <div className="right-buttons">
-            {/* Dark/Light theme toggle */}
-            <Toggle
-              defaultChecked={!theme.dark}
-              onChange={() => setTheme({ dark: !theme.dark })}
-              className="dark-theme-toggle"
-              icons={{
-                checked: (
-                  <FontAwesomeIcon
-                    icon={faSun}
-                    color="white"
-                    style={{
-                      marginTop: "-4px",
-                      height: "20px",
-                    }}
-                  />
-                ),
-                unchecked: (
-                  <FontAwesomeIcon
-                    icon={faMoon}
-                    color="white"
-                    style={{
-                      marginTop: "-5px",
-                      paddingRight: "3px",
-                      height: "20px",
-                    }}
-                  />
-                ),
-              }}
-            />
             <Link className="login" to="/signin">
               <i className="fas fa-sign-in-alt"></i> Sign In
             </Link>
@@ -129,6 +96,7 @@ export function Navbar() {
                 </svg>
               </button>
             </form>
+            <ThemeSwitch />
           </div>
         </div>
       </nav>

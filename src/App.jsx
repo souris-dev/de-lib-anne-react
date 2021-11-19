@@ -7,23 +7,25 @@ import { SignInPage } from "./pages/SignIn";
 import { ExplorePage } from "./pages/Explore";
 import { SearchPage } from "./pages/SearchPage";
 import LandingPage from "./pages/landing";
+import { ForgotPassPage } from "./pages/ForgotPass";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact strict path="/" element={<LandingPage />} />
-        <Route exact strict path="books" element={<WithNavbarAndFooter />}>
-          <Route exact strict path=":bookId" element={<BookDescPage />} /> {/* ISBN13 */}
-          <Route exact strict path="search" element={<Outlet />}>
-            <Route exact strict path=":searchTerm" element={<SearchPage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="books" element={<WithNavbarAndFooter />}>
+          <Route path=":bookId" element={<BookDescPage />} /> {/* ISBN13 */}
+          <Route path="search" element={<Outlet />}>
+            <Route path=":searchTerm" element={<SearchPage />} />
           </Route>
-          <Route exact strict path="mywishlist" element={<WishlistPage />} />
+          <Route path="mywishlist" element={<WishlistPage />} />
           {/*Explore page: */}
           <Route index element={<ExplorePage />} />
         </Route>
-        <Route exact strict path="signin" element={<SignInPage />} />
-        <Route exact strict path="register" element={<SignUpPage />} />
+        <Route path="signin" element={<SignInPage />} />
+        <Route path="register" element={<SignUpPage />} />
+        <Route path="forgot" element={<ForgotPassPage />} />
         <Route path="*" element={<div className="text-white">Not Found</div>} />
       </Routes>
     </BrowserRouter>

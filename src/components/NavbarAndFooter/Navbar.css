@@ -185,11 +185,3 @@ body::-webkit-scrollbar-thumb {
   width: 12rem;
   outline: none;
 }
-
-.dark-theme-toggle.react-toggle--checked .react-toggle-track {
-  background-color: #ffaa00;
-}
-
-.dark-theme-toggle.react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
-  background-color: #ffc249;
-}
