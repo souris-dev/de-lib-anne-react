@@ -34,6 +34,9 @@ export function Navbar() {
 
   var { themeData: theme, setThemeData: setTheme } = useContext(ThemeContext);
 
+  // utility function
+  const isLandingPageLightTheme = () => currPage == "root" && !theme.dark;
+
   // NavLink from react router doesn't seem to work and
   // so active link detection had to be implemented manually
   useEffect(() => {
@@ -44,7 +47,11 @@ export function Navbar() {
     <div className="relative">
       <nav
         className={`topnav w-full z-50 ${
-          currPage == "root" ? "" : "topnav-bg-black"
+          currPage == "root"
+            ? theme.dark
+              ? ""
+              : "topnav-light"
+            : "topnav-bg-black"
         }`}
       >
         <div className="logo">
@@ -85,7 +92,7 @@ export function Navbar() {
                   style={{ height: "20px" }}
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="white"
+                  stroke={`${isLandingPageLightTheme() ? "#5a3922" : "white"}`}
                 >
                   <path
                     strokeLinecap="round"
