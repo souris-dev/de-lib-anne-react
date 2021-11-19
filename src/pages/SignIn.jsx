@@ -2,7 +2,7 @@ import "./SignIn.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { postData, toApiEndpoint } from "../utils/serverFetchUtils";
+import { postData, atServiceEndpoint } from "../utils/serverFetchUtils";
 
 import { ThemeContext } from "../ThemeProvider";
 import { useContext } from "react";
@@ -24,7 +24,7 @@ export function SignInPage() {
       alert("Please input email and password both.");
     }
 
-    postData(toApiEndpoint("auth"), {
+    postData(atServiceEndpoint("auth", "/auth"), {
       email: email,
       password: password,
     }).then((response) => {

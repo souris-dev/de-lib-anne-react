@@ -6,7 +6,7 @@ import { SelectableTags } from "../components/SignUp/SelectableTags";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
-import { postData, toApiEndpoint } from "../utils/serverFetchUtils";
+import { postData, atServiceEndpoint } from "../utils/serverFetchUtils";
 
 import { ThemeContext } from "../ThemeProvider";
 import { useContext } from "react";
@@ -26,7 +26,7 @@ export function SignUpPage() {
   });
 
   const postUserData = () => {
-    postData(toApiEndpoint("createuser"), {
+    postData(atServiceEndpoint("auth", "/createuser"), {
       username: pageOneInputs.username,
       email: pageOneInputs.email,
       password: pageOneInputs.password,
