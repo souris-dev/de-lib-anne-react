@@ -74,8 +74,17 @@ body::-webkit-scrollbar-thumb {
     "Lucida Sans", Arial, sans-serif;
 }
 
-.topnav .left-buttons .peach:hover {
+.topnav-light .left-buttons a {
+  color: #5a3922;
+}
+
+.topnav .left-buttons .peach:hover:not(.topnav-light .left-buttons .peach) {
   border-bottom: 4px solid #f2f2f2;
+  transform: translateY(2px);
+}
+
+.topnav-light .left-buttons .peach:hover {
+  border-bottom: 4px solid #5a3922;
   transform: translateY(2px);
 }
 
@@ -130,9 +139,17 @@ body::-webkit-scrollbar-thumb {
   font-family: "Pacifico";
 }
 
+.topnav-light a.active {
+  color: #5a3922;
+}
+
 .topnav a.peach {
   color: #f8e7d5;
   height: 8vh;
+}
+
+.topnav-light a.peach {
+  color: #5a3922 !important;
 }
 
 .topnav a.current {
@@ -181,15 +198,15 @@ body::-webkit-scrollbar-thumb {
   transition: width 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
+.topnav-light .nav-search-form input[type=text] {
+  color: #5a3922 !important;
+}
+
+.topnav-light .nav-search-form input::placeholder {
+  color: #9b643d;
+}
+
 .topnav .nav-search-form input[type=text]:focus {
   width: 12rem;
   outline: none;
-}
-
-.dark-theme-toggle.react-toggle--checked .react-toggle-track {
-  background-color: #ffaa00;
-}
-
-.dark-theme-toggle.react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
-  background-color: #ffc249;
 }

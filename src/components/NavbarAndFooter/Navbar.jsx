@@ -2,15 +2,11 @@ import "./Navbar.css";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import "react-toggle/style.css";
-import Toggle from "react-toggle";
-
 import { ThemeContext } from "../../ThemeProvider";
 import { useContext } from "react";
-import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 
 import wave from "../../assets/wave_2.svg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ThemeSwitch } from "../ThemeSwitch/ThemeSwitch";
 
 // NavLink from react router doesn't seem to work and
 // so active link detection had to be implemented manually
@@ -38,6 +34,9 @@ export function Navbar() {
 
   var { themeData: theme, setThemeData: setTheme } = useContext(ThemeContext);
 
+  // utility function
+  const isLandingPageLightTheme = () => currPage == "root" && !theme.dark;
+
   // NavLink from react router doesn't seem to work and
   // so active link detection had to be implemented manually
   useEffect(() => {
@@ -48,7 +47,11 @@ export function Navbar() {
     <div className="relative">
       <nav
         className={`topnav w-full z-50 ${
-          currPage == "root" ? "" : "topnav-bg-black"
+          currPage == "root"
+            ? theme.dark
+              ? ""
+              : "topnav-light"
+            : "topnav-bg-black"
         }`}
       >
         <div className="logo">
@@ -72,37 +75,14 @@ export function Navbar() {
             </Link>
           </div>
           <div className="right-buttons">
-            {/* Dark/Light theme toggle */}
-            <Toggle
-              defaultChecked={!theme.dark}
-              onChange={() => setTheme({ dark: !theme.dark })}
-              className="dark-theme-toggle"
-              icons={{
-                checked: (
-                  <FontAwesomeIcon
-                    icon={faSun}
-                    color="white"
-                    style={{
-                      marginTop: "-4px",
-                      height: "20px",
-                    }}
-                  />
-                ),
-                unchecked: (
-                  <FontAwesomeIcon
-                    icon={faMoon}
-                    color="white"
-                    style={{
-                      marginTop: "-5px",
-                      paddingRight: "3px",
-                      height: "20px",
-                    }}
-                  />
-                ),
-              }}
-            />
+            <Link
+              className={`${isLandingPageLightTheme() ? "bg-yellow-100 hover:bg-opacity-50 bg-opacity-30 border-yellow-700 border" : "text-gray-200 border-0"} transform translate-x-6 transition-all duration-500 flex flex-row items-center justify-center rounded-xl pt-0"}`}
+              to="/register"
+            >
+              Sign up
+            </Link>
             <Link className="login" to="/signin">
-              <i className="fas fa-sign-in-alt"></i> Sign In
+              Sign in
             </Link>
             <form className="nav-search-form" action="/books/search">
               <input
@@ -118,7 +98,7 @@ export function Navbar() {
                   style={{ height: "20px" }}
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="white"
+                  stroke={`${isLandingPageLightTheme() ? "#5a3922" : "white"}`}
                 >
                   <path
                     strokeLinecap="round"
@@ -129,6 +109,7 @@ export function Navbar() {
                 </svg>
               </button>
             </form>
+            <ThemeSwitch />
           </div>
         </div>
       </nav>

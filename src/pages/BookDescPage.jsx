@@ -6,7 +6,11 @@ import { ReviewCard } from "../components/ReviewCard/ReviewCard";
 import { Star, Stars, Tags } from "../components/BookDesc/Components";
 import Rating from "react-rating";
 import Fade from "react-reveal/Fade.js";
-import { getData, postData, toApiEndpoint } from "../utils/serverFetchUtils";
+import {
+  getData,
+  postData,
+  atServiceEndpoint,
+} from "../utils/serverFetchUtils";
 
 import { ThemeContext } from "../ThemeProvider";
 import { useContext } from "react";
@@ -38,21 +42,21 @@ export default function BookDescPage() {
     // scroll to beginning
     window.scrollTo(0, 0);
 
-    getData(toApiEndpoint(`bookdets-reviews?isbn13=${params.bookId}`)).then(
-      (response) => {
-        console.log(response.bookDet.nstars);
-        setBookDesc({
-          bookTitle: response.bookDet.title,
-          summary: response.bookDet.summary,
-          author: response.bookDet.author,
-          nstars: response.bookDet.nstars,
-          isbn13: response.bookDet.isbn13,
-          olid: response.bookDet.olid,
-          tags: response.bookDet.tags,
-        });
-        setBookReviews(response.reviews);
-      }
-    );
+    getData(atServiceEndpoint("book_details", "/bookdets-reviews"), {
+      isbn13: params.bookId,
+    }).then((response) => {
+      console.log(response.bookDet.nstars);
+      setBookDesc({
+        bookTitle: response.bookDet.title,
+        summary: response.bookDet.summary,
+        author: response.bookDet.author,
+        nstars: response.bookDet.nstars,
+        isbn13: response.bookDet.isbn13,
+        olid: response.bookDet.olid,
+        tags: response.bookDet.tags,
+      });
+      setBookReviews(response.reviews);
+    });
   }, []);
 
   return (

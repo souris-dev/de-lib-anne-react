@@ -1,0 +1,17 @@
+.top_link a {
+  /* color: rgb(57,42,34); */
+  color: #1f1611;
+  font-weight: 450;
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.top_link .top_link_text {
+  margin-left: 7px;
+}
+
+.top_link {
+  height: 20px;
+}

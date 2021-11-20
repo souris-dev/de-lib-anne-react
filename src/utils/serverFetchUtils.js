@@ -1,5 +1,5 @@
-export const apiUrl = "http://localhost:5001";
-export const toApiEndpoint = (endpoint) => apiUrl + "/" + endpoint;
+export const apiUrl = "http://localhost:8000";
+export const atServiceEndpoint = (service, endpoint) => apiUrl + "/" + service + endpoint;
 
 export async function postData(url = "", data = {}) {
   // Default options are marked with *
@@ -19,7 +19,19 @@ export async function postData(url = "", data = {}) {
 }
 
 export async function getData(url = "", data = {}) {
-  const response = await fetch(url, {
+  var completeUrl = url;
+  if (data != {}) {
+    completeUrl += "?";
+    
+    let params = new URLSearchParams();
+
+    for (let key in data) {
+      params.set(key, data[key]);
+    }
+
+    completeUrl += params;
+  }
+  const response = await fetch(completeUrl, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

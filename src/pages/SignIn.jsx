@@ -2,9 +2,15 @@ import "./SignIn.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { postData, toApiEndpoint } from "../utils/serverFetchUtils";
+import { postData, atServiceEndpoint } from "../utils/serverFetchUtils";
+
+import { ThemeContext } from "../ThemeProvider";
+import { useContext } from "react";
+import { BackButton } from "../components/SignUp/BackButton";
 
 export function SignInPage() {
+  const { themeData: theme } = useContext(ThemeContext);
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +24,7 @@ export function SignInPage() {
       alert("Please input email and password both.");
     }
 
-    postData(toApiEndpoint("auth"), {
+    postData(atServiceEndpoint("auth", "/auth"), {
       email: email,
       password: password,
     }).then((response) => {
@@ -53,31 +59,15 @@ export function SignInPage() {
   }, [email, password]);
 
   return (
-    <section className="login">
-      <div className="login_box">
+    <section className={`login ${theme.dark ? "" : "login-light"}`}>
+      <div
+        className={`login_box ${theme.dark ? "" : "border border-yellow-600"}`}
+      >
         <div className="left">
-          <div className="top_link">
-            <button onClick={() => navigate(-1)} className="flex flex-row">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                style={{ height: "22px" }}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="black"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1"
-                  d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"
-                />
-              </svg>
-              <span className="top_link_text">Back</span>
-            </button>
-          </div>
+          <BackButton />
           <div className="contact">
             <div>
-              <h3>SIGN IN</h3>
+              <h3 className="h3-title">SIGN IN</h3>
               <input
                 type="email"
                 placeholder="EMAIL"
@@ -89,7 +79,12 @@ export function SignInPage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <p>
-                Don't have an account? <Link to="/register">Register</Link>
+                Don't have an account?{" "}
+                <Link to="/register">Register here.</Link>
+              </p>
+
+              <p>
+                Forgot password? <Link to="/forgot">Reset it.</Link>
               </p>
 
               <p

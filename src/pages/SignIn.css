@@ -12,6 +12,11 @@ img {
   );
   position: relative;
 }
+
+.login-light {
+  background: transparent;
+}
+
 .login_box {
   width: 1050px;
   height: 600px;
@@ -36,24 +41,6 @@ img {
   height: 100%;
 }
 
-.left .top_link a {
-  /* color: rgb(57,42,34); */
-  color: #1f1611;
-  font-weight: 450;
-  text-decoration: none;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.left .top_link .top_link_text {
-  margin-left: 7px;
-}
-
-.left .top_link {
-  height: 20px;
-}
-
 .left .contact {
   display: flex;
   align-items: center;
@@ -66,7 +53,7 @@ img {
   color: #1f1611;
 }
 
-.left h3 {
+.left .h3-title {
   text-align: center;
   margin-bottom: 40px;
   padding: 10px;
