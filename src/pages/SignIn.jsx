@@ -44,6 +44,7 @@ export function SignInPage() {
           break;
 
         case "Auth OK":
+          localStorage.setItem("username", response.username);
           navigate("/books");
           break;
 

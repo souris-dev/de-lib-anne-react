@@ -38,6 +38,7 @@ export function SignUpPage() {
           break;
 
         case "User created":
+          localStorage.setItem("username", response.username);
           navigate("/books");
           break;
 
@@ -117,13 +118,13 @@ export function SignUpPage() {
                       />
                       <ErrorMessage name="username">
                         {(msg) => (
-                          <div className="text-red-700 text-sm">{msg}</div>
+                          <div className="text-sm text-red-700">{msg}</div>
                         )}
                       </ErrorMessage>
                       <Field type="email" placeholder="EMAIL" name="email" />
                       <ErrorMessage name="email">
                         {(msg) => (
-                          <div className="text-red-700 text-sm">{msg}</div>
+                          <div className="text-sm text-red-700">{msg}</div>
                         )}
                       </ErrorMessage>
                       <Field
@@ -133,7 +134,7 @@ export function SignUpPage() {
                       />
                       <ErrorMessage name="password">
                         {(msg) => (
-                          <div className="text-red-700 text-sm">{msg}</div>
+                          <div className="text-sm text-red-700">{msg}</div>
                         )}
                       </ErrorMessage>
                       <Field
@@ -143,11 +144,11 @@ export function SignUpPage() {
                       />
                       <ErrorMessage name="confpassword">
                         {(msg) => (
-                          <div className="text-red-700 text-sm">{msg}</div>
+                          <div className="text-sm text-red-700">{msg}</div>
                         )}
                       </ErrorMessage>
 
-                      <div className="flex flex-row mt-2 w-full items-center justify-center">
+                      <div className="flex flex-row items-center justify-center w-full mt-2">
                         Have an account?{" "}
                         <Link to="/signin" className="ml-1">
                           <span className="italic">Sign in.</span>
