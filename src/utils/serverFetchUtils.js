@@ -1,5 +1,6 @@
 export const apiUrl = "http://localhost:8000";
-export const atServiceEndpoint = (service, endpoint) => apiUrl + "/" + service + endpoint;
+export const atServiceEndpoint = (service, endpoint) =>
+  apiUrl + "/" + service + endpoint;
 
 export async function postData(url = "", data = {}) {
   // Default options are marked with *
@@ -7,7 +8,7 @@ export async function postData(url = "", data = {}) {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     // mode: 'cors', // no-cors, *cors, same-origin
     // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    // credentials: 'same-origin', // include, *same-origin, omit
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -22,7 +23,7 @@ export async function getData(url = "", data = {}) {
   var completeUrl = url;
   if (data != {}) {
     completeUrl += "?";
-    
+
     let params = new URLSearchParams();
 
     for (let key in data) {
@@ -33,6 +34,7 @@ export async function getData(url = "", data = {}) {
   }
   const response = await fetch(completeUrl, {
     method: "GET",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
