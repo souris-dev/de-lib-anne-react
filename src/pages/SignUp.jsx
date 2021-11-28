@@ -19,6 +19,8 @@ export function SignUpPage() {
   const navigate = useNavigate();
   const [isFlipped, setIsFlipped] = useState(false);
   const [tags, setTags] = useState([]);
+  const [otp, setOtp] = useState();
+  const [userOtp, setUserOtp] = useState();
 
   const [pageOneInputs, setPageOneInputs] = useState({
     username: "",
@@ -29,6 +31,10 @@ export function SignUpPage() {
   const [signUpInProgress, setSignUpInProgress] = useState(false);
 
   const postUserData = () => {
+    if (otp != userOtp) {
+      alert("Wrong OTP!");
+      return;
+    }
     setSignUpInProgress(true);
 
     postData(atServiceEndpoint("auth", "/createuser"), {
@@ -60,6 +66,15 @@ export function SignUpPage() {
         );
         setSignUpInProgress(false);
       });
+  };
+
+  const postOTP = () => {
+    postData(atServiceEndpoint("auth", "/sendotp"), {
+      email: pageOneInputs.email,
+    }).then((response) => {
+      console.log("otp is", otp);
+      setOtp(response.message);
+    });
   };
 
   return (
@@ -120,6 +135,7 @@ export function SignUpPage() {
                     });
                     setSubmitting(false);
                     setIsFlipped(true);
+                    postOTP();
                   }}
                 >
                   {({ isSubmitting }) => (
@@ -220,7 +236,7 @@ export function SignUpPage() {
                   <input
                     type="text"
                     placeholder="6-digit OTP"
-                    onChange={() => {}}
+                    onChange={(e) => setUserOtp(e.target.value)}
                   />
                   <button
                     className="submit submit-btn-next"
