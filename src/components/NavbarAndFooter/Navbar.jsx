@@ -1,5 +1,5 @@
 import "./Navbar.css";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { ThemeContext } from "../../ThemeProvider";
@@ -8,10 +8,12 @@ import { useContext } from "react";
 import wave from "../../assets/wave_2.svg";
 import { ThemeSwitch } from "../ThemeSwitch/ThemeSwitch";
 
-// NavLink from react router doesn't seem to work and
-// so active link detection had to be implemented manually
-// Tnis function jus returns a convenient representation
-// given the current location in the URL field of the browser
+/** 
+ * NavLink from react router doesn't seem to work and
+ * so active link detection had to be implemented manually
+ * This function just returns a convenient representation
+ * given the current location in the URL field of the browser
+ **/
 const locationToPageName = (pathname) => {
   if (pathname == "/") {
     return "root";
@@ -32,6 +34,9 @@ export function Navbar() {
     locationToPageName(location.pathname)
   );
 
+  const navigate = useNavigate();
+  const [searchText, setSearchText] = useState("");
+
   var { themeData: theme, setThemeData: setTheme } = useContext(ThemeContext);
 
   // utility function
@@ -42,6 +47,11 @@ export function Navbar() {
   useEffect(() => {
     setCurrPage(locationToPageName(location.pathname));
   }, [location.pathname]);
+
+  const doSearch = () => {
+    // encodeURI takes care of spaces and special characters in searchText
+    navigate(encodeURI("/books/search/" + searchText));
+  };
 
   return (
     <div className="relative">
@@ -76,7 +86,11 @@ export function Navbar() {
           </div>
           <div className="right-buttons">
             <Link
-              className={`${isLandingPageLightTheme() ? "bg-yellow-100 hover:bg-opacity-50 bg-opacity-30 border-yellow-700 border" : "text-gray-200 border-0"} transform translate-x-6 transition-all duration-500 flex flex-row items-center justify-center rounded-xl pt-0"}`}
+              className={`${
+                isLandingPageLightTheme()
+                  ? "bg-yellow-100 hover:bg-opacity-50 bg-opacity-30 border-yellow-700 border"
+                  : "text-gray-200 border-0"
+              } transform translate-x-6 transition-all duration-500 flex flex-row items-center justify-center rounded-xl pt-0"}`}
               to="/register"
             >
               Sign up
@@ -84,13 +98,15 @@ export function Navbar() {
             <Link className="login" to="/signin">
               Sign in
             </Link>
-            <form className="nav-search-form" action="/books/search">
+            <form className="nav-search-form" onSubmit={doSearch}>
               <input
                 type="text"
                 autoFocus
+                required
                 autoComplete={"no"}
                 placeholder="Search"
                 name="search"
+                onChange={(e) => setSearchText(e.target.value)}
               />
               <button className="search">
                 <svg

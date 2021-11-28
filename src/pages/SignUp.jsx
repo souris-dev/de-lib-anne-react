@@ -4,6 +4,7 @@ import "./SignUp.css";
 import ReactCardFlip from "react-card-flip";
 import { SelectableTags } from "../components/SignUp/SelectableTags";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { postData, atServiceEndpoint } from "../utils/serverFetchUtils";
@@ -25,27 +26,40 @@ export function SignUpPage() {
     password: "",
   });
 
+  const [signUpInProgress, setSignUpInProgress] = useState(false);
+
   const postUserData = () => {
+    setSignUpInProgress(true);
+
     postData(atServiceEndpoint("auth", "/createuser"), {
       username: pageOneInputs.username,
       email: pageOneInputs.email,
       password: pageOneInputs.password,
       interests: tags,
-    }).then((response) => {
-      switch (response.message) {
-        case "User with same email already exists":
-          alert("User with same email already exists!");
-          break;
+    })
+      .then((response) => {
+        switch (response.message) {
+          case "User with same email already exists":
+            alert("User with same email already exists!");
+            setSignUpInProgress(false);
+            break;
 
-        case "User created":
-          navigate("/books");
-          break;
+          case "User created":
+            navigate("/books");
+            break;
 
-        default:
-          console.log(response.message); // debug
-          alert("Something went wrong. Please try again.");
-      }
-    });
+          default:
+            console.log(response.message); // debug
+            setSignUpInProgress(false);
+            alert("Something went wrong. Please try again.");
+        }
+      })
+      .catch((err) => {
+        alert(
+          "Something went wrong. Please try clicking on the Sign Up button again, or the whole process again."
+        );
+        setSignUpInProgress(false);
+      });
   };
 
   return (
@@ -214,7 +228,13 @@ export function SignUpPage() {
                       postUserData();
                     }}
                   >
-                    Register
+                    {signUpInProgress ? (
+                      <span class="mt-2 -mb-1">
+                        <ClipLoader size={20} color="#ffffff" />
+                      </span>
+                    ) : (
+                      "Register"
+                    )}
                   </button>
                 </form>
               </div>

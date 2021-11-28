@@ -15,14 +15,25 @@ export async function postData(url = "", data = {}) {
     // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
-  return response.json(); // parses JSON response into native JavaScript objects
+
+  return new Promise((resolve, reject) => {
+    response.json().then((resp) => {
+      // TODO: THIS REALLY SHOULD NOT BE DONE
+      // BUT DOING THIS FOR NOW TO MAINTAIN BACKWARD COMPATIBILITY
+      // Should instead be using an object that encapsulates the status
+      // and the response
+      resp.status = response.status;
+      resolve(resp);
+    }
+    );
+  });
 }
 
 export async function getData(url = "", data = {}) {
   var completeUrl = url;
   if (data != {}) {
     completeUrl += "?";
-    
+
     let params = new URLSearchParams();
 
     for (let key in data) {
@@ -38,5 +49,16 @@ export async function getData(url = "", data = {}) {
     },
     redirect: "follow",
   });
-  return response.json();
+
+  return new Promise((resolve, reject) => {
+    response.json().then((resp) => {
+      // TODO: THIS REALLY SHOULD NOT BE DONE
+      // BUT DOING THIS FOR NOW TO MAINTAIN BACKWARD COMPATIBILITY
+      // Should instead be using an object that encapsulates the status
+      // and the response
+      resp.status = response.status;
+      resolve(resp);
+    }
+    );
+  })
 }
