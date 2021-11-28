@@ -7,6 +7,7 @@ import { postData, atServiceEndpoint } from "../utils/serverFetchUtils";
 import { ThemeContext } from "../ThemeProvider";
 import { useContext } from "react";
 import { BackButton } from "../components/SignUp/BackButton";
+import { ClipLoader, DotLoader, FadeLoader, PropagateLoader } from "react-spinners";
 
 export function SignInPage() {
   const { themeData: theme } = useContext(ThemeContext);
@@ -19,10 +20,15 @@ export function SignInPage() {
   );
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
 
+  const [signInInProgress, setSignInInProgress] = useState(false);
+
   const trySignIn = () => {
     if (email == "" || password == "") {
       alert("Please input email and password both.");
+      return;
     }
+
+    setSignInInProgress(true);
 
     postData(atServiceEndpoint("auth", "/auth"), {
       email: email,
@@ -34,6 +40,7 @@ export function SignInPage() {
             "We like guests but with a reservation. User not found."
           );
           setErrorMessageVisible(true);
+          setSignInInProgress(false);
           break;
 
         case "Wrong password":
@@ -41,6 +48,7 @@ export function SignInPage() {
             "The lock did not like the key. Wrong password. LOL."
           );
           setErrorMessageVisible(true);
+          setSignInInProgress(false);
           break;
 
         case "Auth OK":
@@ -51,7 +59,11 @@ export function SignInPage() {
         default:
           setErrorMessage("Something ceased to be right. Please try again.");
           setErrorMessageVisible(true);
+          setSignInInProgress(false);
       }
+    }).catch((err) => {
+      alert("Could not sign in, please try again.");
+      setSignInInProgress(false);
     });
   };
 
@@ -96,8 +108,15 @@ export function SignInPage() {
               >
                 {errorMessage}
               </p>
-              <button className="submit" onClick={trySignIn}>
-                Start Reading
+              <button className="submit flex flex-row items-center" onClick={trySignIn}>
+                {signInInProgress ? (
+                  <span class="mt-2 -mb-1"><ClipLoader
+                    size={20}
+                    color="#ffffff"
+                  /></span>
+                ) : (
+                  "Start Reading"
+                )}
               </button>
             </div>
           </div>

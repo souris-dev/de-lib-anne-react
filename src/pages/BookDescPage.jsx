@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import React from "react";
 import "./BookDescPage.css";
 import { ReviewCard } from "../components/ReviewCard/ReviewCard";
@@ -17,6 +17,7 @@ import { useContext } from "react";
 import wave from "../assets/wave_2.svg";
 import waves from "../assets/wavesOpacity.svg";
 import smallDivider from "../assets/divider_small.svg";
+import DefaultLoadingScreen from "../components/Loaders/DefaultLoadingScreen";
 
 export default function BookDescPage() {
   const { themeData: theme } = useContext(ThemeContext);
@@ -36,7 +37,10 @@ export default function BookDescPage() {
   const [ratingStarsInput, setRatingStarsInput] = useState(0);
   const [reviewInput, setReviewInput] = useState("");
 
+  const [dataLoaded, setDataLoaded] = useState(false);
+
   const params = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // scroll to beginning
@@ -45,7 +49,12 @@ export default function BookDescPage() {
     getData(atServiceEndpoint("book_details", "/bookdets-reviews"), {
       isbn13: params.bookId,
     }).then((response) => {
-      console.log(response.bookDet.nstars);
+      if (response.status == 404) {
+        alert("Sorry! That book isn't in our database.");
+        navigate(-1);
+        return;
+      }
+
       setBookDesc({
         bookTitle: response.bookDet.title,
         summary: response.bookDet.summary,
@@ -56,8 +65,13 @@ export default function BookDescPage() {
         tags: response.bookDet.tags,
       });
       setBookReviews(response.reviews);
+      setDataLoaded(true);
     });
   }, []);
+
+  if (!dataLoaded) {
+    return <DefaultLoadingScreen />;
+  }
 
   return (
     <div className="static">
