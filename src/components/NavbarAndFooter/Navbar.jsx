@@ -7,6 +7,8 @@ import { useContext } from "react";
 
 import wave from "../../assets/wave_2.svg";
 import { ThemeSwitch } from "../ThemeSwitch/ThemeSwitch";
+import { LoginContext } from "../../contexts/LoginProvider";
+import { atServiceEndpoint, postData } from "../../utils/serverFetchUtils";
 
 /**
  * NavLink from react router doesn't seem to work and
@@ -29,18 +31,16 @@ const locationToPageName = (pathname) => {
 };
 
 export function Navbar() {
+  var { themeData: theme, setThemeData: setTheme } = useContext(ThemeContext);
+
+  /**
+   * For location handling/recording
+   */
   var location = useLocation(); // for getting the URL in the browser's URL field
+  const navigate = useNavigate();
   const [currPage, setCurrPage] = useState(
     locationToPageName(location.pathname)
   );
-
-  const navigate = useNavigate();
-  const [searchText, setSearchText] = useState("");
-
-  var { themeData: theme, setThemeData: setTheme } = useContext(ThemeContext);
-
-  // utility function
-  const isLandingPageLightTheme = () => currPage == "root" && !theme.dark;
 
   // NavLink from react router doesn't seem to work and
   // so active link detection had to be implemented manually
@@ -48,9 +48,66 @@ export function Navbar() {
     setCurrPage(locationToPageName(location.pathname));
   }, [location.pathname]);
 
+  /**
+   * For the search bar
+   */
+  const [searchText, setSearchText] = useState("");
   const doSearch = () => {
     // encodeURI takes care of spaces and special characters in searchText
     navigate(encodeURI("/books/search/" + searchText));
+  };
+
+  /**
+   * For signed up/signed in/logged out
+   */
+  const {
+    username: globalUsername,
+    setUsername: setGlobalUsername,
+    isSignedIn: isGlobalSignedIn,
+    setIsSignedIn: setGlobalIsSignedIn,
+  } = useContext(LoginContext);
+
+  const doLogout = () => {
+    postData(atServiceEndpoint("auth", "/logout"))
+      .then((response) => {
+        localStorage.removeItem("username");
+        localStorage.removeItem("lastLoggedIn");
+        setGlobalUsername("");
+        setGlobalIsSignedIn(false);
+        navigate("/");
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const SignedOutRightButtons = () => {
+    return (
+      <>
+        <Link
+          className={`${
+            !theme.dark
+              ? "bg-yellow-100 hover:bg-opacity-50 bg-opacity-30 border-yellow-700 border"
+              : "text-gray-200 border-0"
+          } transform translate-x-6 transition-all duration-500 flex flex-row items-center justify-center rounded-xl pt-0"}`}
+          to="/register"
+        >
+          Sign up
+        </Link>
+        <Link className="login" to="/signin">
+          Sign in
+        </Link>
+      </>
+    );
+  };
+
+  const SignedInRightButtons = () => {
+    return (
+      <>
+        <a className="login" onClick={doLogout}>
+          Logout
+        </a>
+        <div className={`mr-5 font-medium ${theme.dark ? `text-white` : `text-black`}`}>{globalUsername}</div>
+      </>
+    );
   };
 
   return (
@@ -85,20 +142,12 @@ export function Navbar() {
             </Link>
           </div>
           <div className="right-buttons">
-            <Link
-              className={`${
-                !theme.dark
-                  ? "bg-yellow-100 hover:bg-opacity-50 bg-opacity-30 border-yellow-700 border"
-                  : "text-gray-200 border-0"
-              } transform translate-x-6 transition-all duration-500 flex flex-row items-center justify-center rounded-xl pt-0"}`}
-              to="/register"
-            >
-              Sign up
-            </Link>
-            <Link className="login" to="/signin">
-              Sign in
-            </Link>
-            <form className="nav-search-form" onSubmit={doSearch}>
+            {isGlobalSignedIn ? (
+              <SignedInRightButtons />
+            ) : (
+              <SignedOutRightButtons />
+            )}
+            <form className="nav-search-form" onSubmit={(e) => { e.preventDefault(); doSearch() }}>
               <input
                 type="text"
                 autoFocus

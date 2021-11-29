@@ -56,7 +56,7 @@ export function SearchPage() {
   return (
     <div className="mx-7 mb-20">
       <main>
-        <header className="ml-10 mt-16 bigheader">
+        <header className={`ml-10 ${theme.dark ? "mt-16" : "mt-12"} bigheader`}>
           <h1
             className={`text-5xl ${
               theme.dark ? "tracking-wider text-white" : "tracking-wide text-gray-900 font-semibold"
