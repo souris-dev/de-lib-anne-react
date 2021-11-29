@@ -8,7 +8,7 @@ import { useContext } from "react";
 import wave from "../../assets/wave_2.svg";
 import { ThemeSwitch } from "../ThemeSwitch/ThemeSwitch";
 
-/** 
+/**
  * NavLink from react router doesn't seem to work and
  * so active link detection had to be implemented manually
  * This function just returns a convenient representation
@@ -57,11 +57,7 @@ export function Navbar() {
     <div className="relative">
       <nav
         className={`topnav w-full z-50 ${
-          currPage == "root"
-            ? theme.dark
-              ? ""
-              : "topnav-light"
-            : "topnav-bg-black"
+          theme.dark ? "topnav-bg-black" : "topnav-light"
         }`}
       >
         <div className="logo">
@@ -73,7 +69,11 @@ export function Navbar() {
           <div className="left-buttons">
             <Link
               className={`peach flex flex-row items-center ${
-                currPage == "explore" ? "topnav-active-link" : ""
+                currPage == "explore"
+                  ? theme.dark
+                    ? "topnav-active-link"
+                    : "topnav-active-link-light"
+                  : ""
               }`}
               to="/books"
               style={{ fontSize: "17px" }}
@@ -87,7 +87,7 @@ export function Navbar() {
           <div className="right-buttons">
             <Link
               className={`${
-                isLandingPageLightTheme()
+                !theme.dark
                   ? "bg-yellow-100 hover:bg-opacity-50 bg-opacity-30 border-yellow-700 border"
                   : "text-gray-200 border-0"
               } transform translate-x-6 transition-all duration-500 flex flex-row items-center justify-center rounded-xl pt-0"}`}
@@ -114,7 +114,7 @@ export function Navbar() {
                   style={{ height: "20px" }}
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke={`${isLandingPageLightTheme() ? "#5a3922" : "white"}`}
+                  stroke={`${theme.dark ? "white" : "#5a3922"}`}
                 >
                   <path
                     strokeLinecap="round"

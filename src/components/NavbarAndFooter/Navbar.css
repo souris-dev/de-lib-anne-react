@@ -93,6 +93,11 @@ body::-webkit-scrollbar-thumb {
   transform: translateY(2px);
 }
 
+.topnav-active-link-light {
+  border-bottom: 4px solid #927516;
+  transform: translateY(2px);
+}
+
 .topnav .left-buttons a:first-child {
   font-size: large;
   padding: 1rem;
