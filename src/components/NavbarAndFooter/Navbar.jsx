@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { ThemeContext } from "../../contexts/ThemeProvider";
+import { SearchContext } from "../../contexts/SearchProvider";
 import { useContext } from "react";
 
 import wave from "../../assets/wave_2.svg";
@@ -31,7 +32,7 @@ const locationToPageName = (pathname) => {
 };
 
 export function Navbar() {
-  var { themeData: theme, setThemeData: setTheme } = useContext(ThemeContext);
+  const { themeData: theme, setThemeData: setTheme } = useContext(ThemeContext);
 
   /**
    * For location handling/recording
@@ -52,8 +53,10 @@ export function Navbar() {
    * For the search bar
    */
   const [searchText, setSearchText] = useState("");
+  const { searchTerm: searchTerm, setSearchTerm: setSearchTerm } = useContext(SearchContext);
   const doSearch = () => {
     // encodeURI takes care of spaces and special characters in searchText
+    setSearchTerm(encodeURI(searchText));
     navigate(encodeURI("/books/search/" + searchText));
   };
 
