@@ -13,12 +13,14 @@ import {
   getData,
   postData,
 } from "../utils/serverFetchUtils";
+import { LoginContext } from "../contexts/LoginProvider";
 
 export function WishlistPage() {
   const [bookDescs, setBookDescs] = useState([]);
   const { themeData: theme } = useContext(ThemeContext);
 
   const [dataLoaded, setDataLoaded] = useState(false);
+  const { username: retrieveUsername } = useContext(LoginContext);
 
   useEffect(() => {
     getData(atServiceEndpoint("wishlist", "/getwishlist"))
@@ -50,13 +52,15 @@ export function WishlistPage() {
   }
 
   return (
-    <section className="text-gray-400 body-font min-h-screen">
+    <section className="min-h-screen text-gray-400 body-font">
       <h1
         className={`text-4xl font-medium title-font ${
           theme.dark ? "text-white" : "text-gray-800"
         } mt-10 text-center`}
       >
-        Souris'{" "}
+        {retrieveUsername.charAt(retrieveUsername.length - 1) == "s"
+          ? retrieveUsername + "'"
+          : retrieveUsername + "'s"}{" "}
         <span className={theme.dark ? `font-thin` : `font-bold`}>Wishlist</span>
       </h1>
       <Fade bottom cascade>
@@ -68,10 +72,10 @@ export function WishlistPage() {
                 theme.dark ? "border-gray-800" : "border-wishlist-book"
               } mx-5 sm:mx-10 md:mr-16 lg:mx-auto md:flex-row flex-col`}
             >
-              <div className="sm:mr-10 md:mr-3 inline-flex items-center w-full sm:w-1/2 md:w-1/3 justify-center text-yellow-400 flex-shrink-0">
+              <div className="inline-flex items-center justify-center flex-shrink-0 w-full text-yellow-400 sm:mr-10 md:mr-3 sm:w-1/2 md:w-1/3">
                 <img
                   alt="bookcover"
-                  className="lg:w-1/2 w-full sm:w-1/2 object-contain object-center rounded-lg cursor-pointer"
+                  className="object-contain object-center w-full rounded-lg cursor-pointer lg:w-1/2 sm:w-1/2"
                   src={`https://covers.openlibrary.org/b/olid/${bookDesc.olid}-L.jpg`}
                   onClick={() =>
                     window.open(
@@ -80,7 +84,7 @@ export function WishlistPage() {
                   }
                 />
               </div>
-              <div className="lg:w-1/2 w-full lg:pl-4 lg:py-6 mt-10 sm:mt-6 lg:mt-0">
+              <div className="w-full mt-10 lg:w-1/2 lg:pl-4 lg:py-6 sm:mt-6 lg:mt-0">
                 <h1
                   className={`${
                     theme.dark ? "text-white" : "text-gray-800"
@@ -102,12 +106,12 @@ export function WishlistPage() {
                 >
                   ISBN13: {bookDesc.isbn13}
                 </h2>
-                <div className="flex mb-4 mt-2">
+                <div className="flex mt-2 mb-4">
                   <span className="flex items-center">
                     <Stars nstars={bookDesc.nstars} />
                   </span>
                 </div>
-                <div className="mt-3 flex flex-row">
+                <div className="flex flex-row mt-3">
                   <Tags tags={bookDesc.tags} />
                 </div>
                 <div className="flex mt-4">

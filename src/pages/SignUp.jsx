@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { postData, atServiceEndpoint } from "../utils/serverFetchUtils";
 
 import { ThemeContext } from "../contexts/ThemeProvider";
+import { LoginContext } from "../contexts/LoginProvider";
 import { useContext } from "react";
 import { BackButton } from "../components/SignUp/BackButton";
 
@@ -21,6 +22,8 @@ export function SignUpPage() {
   const [tags, setTags] = useState([]);
   const [otp, setOtp] = useState();
   const [userOtp, setUserOtp] = useState();
+  const { setUsername: setGlobalUsername, setIsSignedIn: setGlobalIsSignedUp } =
+    useContext(LoginContext);
 
   const [pageOneInputs, setPageOneInputs] = useState({
     username: "",
@@ -51,6 +54,13 @@ export function SignUpPage() {
             break;
 
           case "User created":
+            localStorage.setItem("username", response.username);
+            localStorage.setItem(
+              "lastLoggedIn",
+              new Date(Date.now()).toISOString()
+            );
+            setGlobalIsSignedUp(true);
+            setGlobalUsername(response.username);
             navigate("/books");
             break;
 
@@ -61,6 +71,7 @@ export function SignUpPage() {
         }
       })
       .catch((err) => {
+        console.log(err);
         alert(
           "Something went wrong. Please try clicking on the Sign Up button again, or the whole process again."
         );
@@ -250,7 +261,7 @@ export function SignUpPage() {
                     }}
                   >
                     {signUpInProgress ? (
-                      <span class="mt-2 -mb-1">
+                      <span className="mt-2 -mb-1">
                         <ClipLoader size={20} color="#ffffff" />
                       </span>
                     ) : (

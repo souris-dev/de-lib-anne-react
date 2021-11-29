@@ -69,6 +69,29 @@ export default function BookDescPage() {
     });
   }, []);
 
+  const tryAddInWishlist = () => {
+    postData(
+      atServiceEndpoint("wishlist", "/addwishitem"),
+      { isbn13: bookDesc.isbn13 },
+      "PUT"
+    )
+      .then((response) => {
+        switch (response.message) {
+          case "Wishlist book addition: success.":
+            alert("Your book has been added");
+            break;
+
+          case "Wishlist creation and book addition: success.":
+            alert("your wishlist has been created and book has been added.");
+            break;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("something went wrong");
+      });
+  };
+
   if (!dataLoaded) {
     return <DefaultLoadingScreen />;
   }
@@ -127,7 +150,12 @@ export default function BookDescPage() {
                   <div className="mt-8"></div>
                 )}
                 <div className="flex">
-                  <button className="flex px-6 py-2 ml-auto text-base text-black bg-yellow-300 border-0 rounded focus:outline-none hover:bg-yellow-400">
+                  <button
+                    className="flex px-6 py-2 ml-auto text-base text-black bg-yellow-300 border-0 rounded focus:outline-none hover:bg-yellow-400"
+                    onClick={() => {
+                      tryAddInWishlist();
+                    }}
+                  >
                     Add to wishlist
                   </button>
                 </div>
