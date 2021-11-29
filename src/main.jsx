@@ -4,12 +4,15 @@ import "./index.css";
 import App from "./App";
 import { ThemeProvider } from "./contexts/ThemeProvider";
 import { LoginProvider } from "./contexts/LoginProvider";
+import { SearchProvider } from "./contexts/SearchProvider";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider>
       <LoginProvider>
-        <App />
+        <SearchProvider>
+          <App />
+        </SearchProvider>
       </LoginProvider>
     </ThemeProvider>
   </React.StrictMode>,
