@@ -4,10 +4,16 @@ import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { postData, atServiceEndpoint } from "../utils/serverFetchUtils";
 
-import { ThemeContext } from "../ThemeProvider";
+import { ThemeContext } from "../contexts/ThemeProvider";
 import { useContext } from "react";
 import { BackButton } from "../components/SignUp/BackButton";
-import { ClipLoader, DotLoader, FadeLoader, PropagateLoader } from "react-spinners";
+import {
+  ClipLoader,
+  DotLoader,
+  FadeLoader,
+  PropagateLoader,
+} from "react-spinners";
+import { LoginContext } from "../contexts/LoginProvider";
 
 export function SignInPage() {
   const { themeData: theme } = useContext(ThemeContext);
@@ -22,6 +28,12 @@ export function SignInPage() {
 
   const [signInInProgress, setSignInInProgress] = useState(false);
 
+  /**
+   * Login state
+   */
+  const { setUsername: setGlobalUsername, setIsSignedIn: setGlobalIsSignedIn } =
+    useContext(LoginContext);
+
   const trySignIn = () => {
     if (email == "" || password == "") {
       alert("Please input email and password both.");
@@ -33,38 +45,46 @@ export function SignInPage() {
     postData(atServiceEndpoint("auth", "/auth"), {
       email: email,
       password: password,
-    }).then((response) => {
-      switch (response.message) {
-        case "User not found":
-          setErrorMessage(
-            "We like guests but with a reservation. User not found."
-          );
-          setErrorMessageVisible(true);
-          setSignInInProgress(false);
-          break;
+    })
+      .then((response) => {
+        switch (response.message) {
+          case "User not found":
+            setErrorMessage(
+              "We like guests but with a reservation. User not found."
+            );
+            setErrorMessageVisible(true);
+            setSignInInProgress(false);
+            break;
 
-        case "Wrong password":
-          setErrorMessage(
-            "The lock did not like the key. Wrong password. LOL."
-          );
-          setErrorMessageVisible(true);
-          setSignInInProgress(false);
-          break;
+          case "Wrong password":
+            setErrorMessage(
+              "The lock did not like the key. Wrong password. LOL."
+            );
+            setErrorMessageVisible(true);
+            setSignInInProgress(false);
+            break;
 
-        case "Auth OK":
-          localStorage.setItem("username", response.username);
-          navigate("/books");
-          break;
+          case "Auth OK":
+            localStorage.setItem("username", response.username);
+            localStorage.setItem(
+              "lastLoggedIn",
+              new Date(Date.now()).toISOString()
+            );
+            setGlobalIsSignedIn(true);
+            setGlobalUsername(response.username);
+            navigate("/books");
+            break;
 
-        default:
-          setErrorMessage("Something ceased to be right. Please try again.");
-          setErrorMessageVisible(true);
-          setSignInInProgress(false);
-      }
-    }).catch((err) => {
-      alert("Could not sign in, please try again.");
-      setSignInInProgress(false);
-    });
+          default:
+            setErrorMessage("Something ceased to be right. Please try again.");
+            setErrorMessageVisible(true);
+            setSignInInProgress(false);
+        }
+      })
+      .catch((err) => {
+        alert("Could not sign in, please try again.");
+        setSignInInProgress(false);
+      });
   };
 
   useEffect(() => {
@@ -108,12 +128,14 @@ export function SignInPage() {
               >
                 {errorMessage}
               </p>
-              <button className="submit flex flex-row items-center" onClick={trySignIn}>
+              <button
+                className="submit flex flex-row items-center"
+                onClick={trySignIn}
+              >
                 {signInInProgress ? (
-                  <span class="mt-2 -mb-1"><ClipLoader
-                    size={20}
-                    color="#ffffff"
-                  /></span>
+                  <span class="mt-2 -mb-1">
+                    <ClipLoader size={20} color="#ffffff" />
+                  </span>
                 ) : (
                   "Start Reading"
                 )}

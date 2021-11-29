@@ -1,6 +1,6 @@
 import { Stars } from "../BookDesc/Components";
 import "./ReviewCard.css";
-import { ThemeContext } from "../../ThemeProvider";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 import { useContext } from "react";
 
 export function ReviewCard(props) {

@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import "./Explore.css";
 import { BookCard } from "../components/BookCard/BookCard";
 
-import { ThemeContext } from "../ThemeProvider";
+import { ThemeContext } from "../contexts/ThemeProvider";
 import { useContext } from "react";
 
 const BookSection = (props) => {
   const { themeData: theme } = useContext(ThemeContext);
 
   return (
-    <section className={theme.dark ? `mt-20` : `mt-28`}>
-      <div className={`-ml-7 ${theme.dark ? "mb-8" : "bg-gray-700 mb-16"} py-4 w-1/5`}>
+    <section style={{ marginTop: theme.dark ? `3vh` : `5vh`, marginBottom: theme.dark ? `3vh` : `10vh` }}>
+      <div className={`-ml-7 ${theme.dark ? "mb-8" : "bg-gray-700 mb-12"} py-4 w-1/5`}>
         <h2 className={`ml-16 pl-1 text-3xl ${theme.dark ? "tracking-wide font-light" : "font-semibold text-gray-200"}`}>
           {props.sectionTitle}
         </h2>
@@ -90,7 +90,7 @@ export function ExplorePage() {
   return (
     <div className="mx-7 mb-24">
       <main>
-        <header className={`ml-10 ${theme.dark ? "mt-16" : "mt-16"} bigheader`}>
+        <header className={`ml-10 ${theme.dark ? "mt-16" : "mt-8"} bigheader`}>
           <h1 className={`text-5xl tracking-wider ${theme.dark ? "text-white" : "font-bold text-gray-800"}`}>Explore</h1>
         </header>
 

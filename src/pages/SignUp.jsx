@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./SignIn.css";
 import "./SignUp.css";
 import ReactCardFlip from "react-card-flip";
@@ -9,7 +9,7 @@ import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { postData, atServiceEndpoint } from "../utils/serverFetchUtils";
 
-import { ThemeContext } from "../ThemeProvider";
+import { ThemeContext } from "../contexts/ThemeProvider";
 import { useContext } from "react";
 import { BackButton } from "../components/SignUp/BackButton";
 
@@ -69,6 +69,10 @@ export function SignUpPage() {
   };
 
   const postOTP = () => {
+    if (pageOneInputs.email == "") {
+      return;
+    }
+
     postData(atServiceEndpoint("auth", "/sendotp"), {
       email: pageOneInputs.email,
     }).then((response) => {
@@ -76,6 +80,8 @@ export function SignUpPage() {
       setOtp(response.message);
     });
   };
+
+  useEffect(() => postOTP(), [pageOneInputs.email]);
 
   return (
     <ReactCardFlip isFlipped={isFlipped}>
@@ -135,7 +141,6 @@ export function SignUpPage() {
                     });
                     setSubmitting(false);
                     setIsFlipped(true);
-                    postOTP();
                   }}
                 >
                   {({ isSubmitting }) => (

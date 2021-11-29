@@ -2,7 +2,7 @@ import "./BookCard.css";
 import { Stars } from "../BookDesc/Components";
 import { Link } from "react-router-dom";
 
-import { ThemeContext } from "../../ThemeProvider";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 import { useContext } from "react";
 
 export const BookCard = (props) => {

@@ -2,7 +2,7 @@ import "react-toggle/style.css";
 import Toggle from "react-toggle";
 import "./ThemeSwitch.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ThemeContext } from "../../ThemeProvider";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 import { useContext } from "react";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 

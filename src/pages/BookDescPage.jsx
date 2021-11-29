@@ -12,7 +12,7 @@ import {
   atServiceEndpoint,
 } from "../utils/serverFetchUtils";
 
-import { ThemeContext } from "../ThemeProvider";
+import { ThemeContext } from "../contexts/ThemeProvider";
 import { useContext } from "react";
 import wave from "../assets/wave_2.svg";
 import waves from "../assets/wavesOpacity.svg";

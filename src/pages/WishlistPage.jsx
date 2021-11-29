@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import "./WishlistPage.css";
 
-import { ThemeContext } from "../ThemeProvider";
+import { ThemeContext } from "../contexts/ThemeProvider";
 import { useContext } from "react";
 
 export function WishlistPage() {
