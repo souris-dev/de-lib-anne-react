@@ -13,6 +13,7 @@ import {
 } from "../utils/serverFetchUtils";
 
 import { ThemeContext } from "../contexts/ThemeProvider";
+import { LoginContext } from "../contexts/LoginProvider";
 import { useContext } from "react";
 import wave from "../assets/wave_2.svg";
 import waves from "../assets/wavesOpacity.svg";
@@ -21,6 +22,7 @@ import DefaultLoadingScreen from "../components/Loaders/DefaultLoadingScreen";
 
 export default function BookDescPage() {
   const { themeData: theme } = useContext(ThemeContext);
+  const { isSignedIn: isSignedIn } = useContext(LoginContext);
 
   const [bookDesc, setBookDesc] = useState({
     bookTitle: "",
@@ -33,6 +35,7 @@ export default function BookDescPage() {
   });
 
   const [bookReviews, setBookReviews] = useState([]);
+  const [userHasBookInWishlist, setUserHasBookInWishlist] = useState(false);
 
   const [ratingStarsInput, setRatingStarsInput] = useState(0);
   const [reviewInput, setReviewInput] = useState("");
@@ -67,6 +70,18 @@ export default function BookDescPage() {
       setBookReviews(response.reviews);
       setDataLoaded(true);
     });
+
+    if (isSignedIn) {
+      getData(atServiceEndpoint("wishlist", "/haswishitem"), {
+        isbn13: params.bookId,
+      }).then((response) => {
+        if (response.message && response.message.includes("present")) {
+          setUserHasBookInWishlist(true);
+        } else {
+          setUserHasBookInWishlist(false);
+        }
+      });
+    }
   }, []);
 
   const tryAddInWishlist = () => {
@@ -78,11 +93,11 @@ export default function BookDescPage() {
       .then((response) => {
         switch (response.message) {
           case "Wishlist book addition: success.":
-            alert("Your book has been added");
+            setUserHasBookInWishlist(true);
             break;
 
           case "Wishlist creation and book addition: success.":
-            alert("your wishlist has been created and book has been added.");
+            setUserHasBookInWishlist(true);
             break;
         }
       })
@@ -90,6 +105,20 @@ export default function BookDescPage() {
         console.log(err);
         alert("something went wrong");
       });
+  };
+
+  const removeWishlistItem = () => {
+    postData(
+      atServiceEndpoint("wishlist", "/deletewishitem"),
+      {
+        isbn13: params.bookId,
+      },
+      "DELETE"
+    ).then((response) => {
+      if (response.status == 200) {
+        setUserHasBookInWishlist(false);
+      }
+    });
   };
 
   if (!dataLoaded) {
@@ -150,14 +179,23 @@ export default function BookDescPage() {
                   <div className="mt-8"></div>
                 )}
                 <div className="flex">
-                  <button
-                    className="flex px-6 py-2 ml-auto text-base text-black bg-yellow-300 border-0 rounded focus:outline-none hover:bg-yellow-400"
-                    onClick={() => {
-                      tryAddInWishlist();
-                    }}
-                  >
-                    Add to wishlist
-                  </button>
+                  {userHasBookInWishlist ? (
+                    <button
+                      onClick={removeWishlistItem}
+                      className={`flex ml-auto ${
+                        theme.dark ? "text-white" : "text-white bg-red-500"
+                      } transition-all duration-500 border border-red-600 py-2 px-6 focus:outline-none hover:bg-red-700 hover:text-white rounded text-base`}
+                    >
+                      Remove from wishlist
+                    </button>
+                  ) : (
+                    <button
+                      className="flex px-6 py-2 ml-auto text-base text-black bg-yellow-300 border-0 rounded focus:outline-none hover:bg-yellow-400"
+                      onClick={tryAddInWishlist}
+                    >
+                      Add to wishlist
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
