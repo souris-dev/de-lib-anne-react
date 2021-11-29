@@ -105,7 +105,13 @@ export function Navbar() {
         <a className="login" onClick={doLogout}>
           Logout
         </a>
-        <div className={`mr-5 font-medium ${theme.dark ? `text-white` : `text-black`}`}>{globalUsername}</div>
+        <div
+          className={`mr-5 font-medium ${
+            theme.dark ? `text-white` : `text-black`
+          }`}
+        >
+          {globalUsername}
+        </div>
       </>
     );
   };
@@ -137,6 +143,23 @@ export function Navbar() {
             >
               Explore
             </Link>
+            {isGlobalSignedIn ? (
+              <Link
+                className={`peach flex flex-row items-center ${
+                  currPage == "wishlist"
+                    ? theme.dark
+                      ? "topnav-active-link"
+                      : "topnav-active-link-light"
+                    : ""
+                }`}
+                to="/books/mywishlist"
+                style={{ fontSize: "17px" }}
+              >
+                My Wishlist
+              </Link>
+            ) : (
+              <></>
+            )}
             <Link className="peach flex flex-row items-center" to="/">
               About
             </Link>
@@ -147,7 +170,13 @@ export function Navbar() {
             ) : (
               <SignedOutRightButtons />
             )}
-            <form className="nav-search-form" onSubmit={(e) => { e.preventDefault(); doSearch() }}>
+            <form
+              className="nav-search-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                doSearch();
+              }}
+            >
               <input
                 type="text"
                 autoFocus
