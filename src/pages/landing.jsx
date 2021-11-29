@@ -6,7 +6,7 @@ import { Navbar } from "../components/NavbarAndFooter/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
-import { ThemeContext } from "../ThemeProvider";
+import { ThemeContext } from "../contexts/ThemeProvider";
 import { useContext } from "react";
 
 function LandingPage() {

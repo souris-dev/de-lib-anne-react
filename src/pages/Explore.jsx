@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./Explore.css";
 import { BookCard } from "../components/BookCard/BookCard";
 
-import { ThemeContext } from "../ThemeProvider";
+import { ThemeContext } from "../contexts/ThemeProvider";
 import { useContext } from "react";
 
 const BookSection = (props) => {

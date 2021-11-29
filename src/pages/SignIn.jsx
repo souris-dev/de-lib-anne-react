@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { postData, atServiceEndpoint } from "../utils/serverFetchUtils";
 
-import { ThemeContext } from "../ThemeProvider";
+import { ThemeContext } from "../contexts/ThemeProvider";
 import { useContext } from "react";
 import { BackButton } from "../components/SignUp/BackButton";
 import { ClipLoader, DotLoader, FadeLoader, PropagateLoader } from "react-spinners";

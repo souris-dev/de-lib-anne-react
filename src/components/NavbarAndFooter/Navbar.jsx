@@ -2,7 +2,7 @@ import "./Navbar.css";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { ThemeContext } from "../../ThemeProvider";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 import { useContext } from "react";
 
 import wave from "../../assets/wave_2.svg";

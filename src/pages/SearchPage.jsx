@@ -1,7 +1,7 @@
 import { BookCard } from "../components/BookCard/BookCard";
 import { useState, useEffect } from "react";
 
-import { ThemeContext } from "../ThemeProvider";
+import { ThemeContext } from "../contexts/ThemeProvider";
 import { useContext } from "react";
 
 export function SearchPage() {
