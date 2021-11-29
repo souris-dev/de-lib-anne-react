@@ -7,10 +7,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 import { ThemeContext } from "../contexts/ThemeProvider";
+import { LoginContext } from "../contexts/LoginProvider";
 import { useContext } from "react";
 
 function LandingPage() {
   const { themeData: theme } = useContext(ThemeContext);
+  const { isSignedIn: isSignedIn } = useContext(LoginContext);
 
   return (
     <div className={`${theme.dark ? "body" : "body-light"}`}>
@@ -18,17 +20,45 @@ function LandingPage() {
       <div>
         <div id="flex-con">
           <div id="color-bg">
-            <div id="content" className={`${theme.dark ? "" : "content-light"}`}>
-              <h1 id="library-name" className={`${theme.dark ? "" : "color-light"}`}>
-                <span className={`${theme.dark ? "" : "font-bold"}`}>De Lib</span> <span id="anne">Anne</span>
+            <div
+              id="content"
+              className={`${theme.dark ? "" : "content-light"}`}
+            >
+              <h1
+                id="library-name"
+                className={`${theme.dark ? "" : "color-light"}`}
+              >
+                <span className={`${theme.dark ? "" : "font-bold"}`}>
+                  De Lib
+                </span>{" "}
+                <span id="anne">Anne</span>
               </h1>
-              <p id="quote" className={`${theme.dark ? "" : "color-light quote-light"}`}>One stop solution for all the bookish stuff.</p>
+              <p
+                id="quote"
+                className={`${theme.dark ? "" : "color-light quote-light"}`}
+              >
+                One stop solution for all the bookish stuff.
+              </p>
               <div className="buttons">
-                <Link to="/register" className={`signup a-link ${theme.dark ? "" : "a-link-light"}`}>
-                  <FontAwesomeIcon icon={faUserPlus} className="mr-3" />
-                  <span className="font-normal">Sign up</span>
-                </Link>
-                <Link to="/books" className={`collection a-link ${theme.dark ? "" : "a-link-light"}`}>
+                {isSignedIn ? (
+                  ""
+                ) : (
+                  <Link
+                    to="/register"
+                    className={`signup a-link ${
+                      theme.dark ? "" : "a-link-light"
+                    }`}
+                  >
+                    <FontAwesomeIcon icon={faUserPlus} className="mr-3" />
+                    <span className="font-normal">Sign up</span>
+                  </Link>
+                )}
+                <Link
+                  to="/books"
+                  className={`collection a-link ${
+                    theme.dark ? "" : "a-link-light"
+                  }`}
+                >
                   <FontAwesomeIcon
                     icon={faChevronRight}
                     className="anim-left"
