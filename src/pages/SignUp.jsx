@@ -213,7 +213,7 @@ export function SignUpPage() {
               </div>
             </div>
           </div>
-          <div className="right"></div>
+          <div className="rightSignUp"></div>
         </div>
       </section>
 
@@ -223,7 +223,7 @@ export function SignUpPage() {
             theme.dark ? "" : "border border-yellow-600"
           }`}
         >
-          <div className="right"></div>
+          <div className="rightSignUp"></div>
           <div className="left">
             <BackButton />
             <div className="contact">
@@ -248,7 +248,9 @@ export function SignUpPage() {
                     OTP Verification
                   </h2>
                   Please enter the OTP sent to your email address.{" "}
-                  <span className="underline cursor-pointer">Resend OTP</span>
+                  <span className="underline cursor-pointer" onClick={postOTP}>
+                    Resend OTP
+                  </span>
                   <input
                     type="text"
                     placeholder="6-digit OTP"
