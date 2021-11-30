@@ -28,6 +28,7 @@ export function SearchPage() {
       (response) => {
         if (response.length != 0) {
           setBooks(response);
+          setNoResults(false);
         } else {
           // if response.length == 0, there are no matches for the search term
           setBooks([]);
@@ -43,7 +44,7 @@ export function SearchPage() {
   }
 
   return (
-    <div className="mx-7 mb-20">
+    <div className="mb-20 mx-7">
       <main>
         <header className={`ml-10 ${theme.dark ? "mt-16" : "mt-12"} bigheader`}>
           <h1
@@ -55,7 +56,7 @@ export function SearchPage() {
           >
             Search Results
           </h1>
-          <h2 className="mt-5 text-3xl header-h2 tracking-wide">
+          <h2 className="mt-5 text-3xl tracking-wide header-h2">
             <span
               className={`${
                 theme.dark ? "text-white" : "text-gray-900 font-semibold"
@@ -70,14 +71,16 @@ export function SearchPage() {
               }`}
               style={{ fontWeight: theme.dark ? "200" : "600" }}
             >
-              {searchTerm}
+              {decodeURI(searchTerm)}
             </span>
           </h2>
         </header>
 
-        {noResults ? <NoResults notFoundText="Sorry, we couldn't find anything for that." /> : (
+        {noResults ? (
+          <NoResults notFoundText="Sorry, we couldn't find anything for that." />
+        ) : (
           <section className="mt-14">
-            <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-10 gap-y-14 flex-wrap ml-10 mt-8 mr-10">
+            <div className="grid flex-wrap gap-10 mt-8 ml-10 mr-10 md:grid-cols-3 lg:grid-cols-4 gap-y-14">
               {books.map((book) => (
                 <BookCard
                   bookTitle={book.title}

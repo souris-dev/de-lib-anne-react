@@ -3,10 +3,8 @@ import "./SignIn.css";
 import "./SignUp.css";
 import "./ForgotPass.css";
 import ReactCardFlip from "react-card-flip";
-import { SelectableTags } from "../components/SignUp/SelectableTags";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 import { postData, atServiceEndpoint } from "../utils/serverFetchUtils";
 
 import { ThemeContext } from "../contexts/ThemeProvider";
@@ -23,6 +21,7 @@ export function ForgotPassPage() {
   const [message, setMessage] = useState({ isError: false, message: "" });
   const [enteredOtp, setEnteredOtp] = useState("");
   const [actualOtp, setActualOtp] = useState("");
+  const [newPass, setNewPass] = useState("");
 
   const sendOtp = () => {
     console.log("sending the otp");
@@ -30,8 +29,26 @@ export function ForgotPassPage() {
       setMessage({ isError: true, message: "Please enter your email." });
       return;
     }
-    setMessage({ isError: false, message: "OTP sent." });
-    setActualOtp("123456");
+    postData(atServiceEndpoint("auth", "/sendotp"), { email: email }).then(
+      (response) => {
+        console.log("otp is", actualOtp);
+        setActualOtp(response.message);
+        setMessage({ isError: false, message: "OTP sent." });
+      }
+    );
+  };
+
+  const updatePass = () => {
+    postData(atServiceEndpoint("auth", "/forgotpassword"), {
+      email: email,
+      password: newPass,
+    }).then((response) => {
+      if (response.status == 400) {
+        alert("The email does not exist. Please enter an existing email ID");
+        return;
+      }
+      navigate("/signin");
+    });
   };
 
   const verifyOtp = () => {
@@ -39,7 +56,7 @@ export function ForgotPassPage() {
     if (actualOtp == "" || actualOtp == undefined) {
       setMessage({
         isError: true,
-        message: "Enter email and click on Send OTP first.",
+        message: "Enter email and click on 'Send OTP' first.",
       });
       return;
     }
@@ -69,6 +86,8 @@ export function ForgotPassPage() {
     }
   }, [enteredOtp]);
 
+  useEffect(() => updatePass(), [newPass]);
+
   return (
     <ReactCardFlip isFlipped={isFlipped}>
       <section className={`login ${theme.dark ? "" : "login-light"}`}>
@@ -81,13 +100,13 @@ export function ForgotPassPage() {
             <BackButton />
             <div className="px-12 mt-6">
               <div>
-                <h3 className="h3-title h3-title-long tracking-wide">
+                <h3 className="tracking-wide h3-title h3-title-long">
                   RESET PASSWORD
                 </h3>
                 <p className="-mt-4">
                   Please enter your associated email address and click on{" "}
                   <b>Send OTP</b>.{" "}
-                  <span className="inline-block text-sm mt-2 italic">
+                  <span className="inline-block mt-2 text-sm italic">
                     {" "}
                     The OTP will be valid for 10 minutes. Do not reload this
                     page after sending the OTP.
@@ -98,7 +117,7 @@ export function ForgotPassPage() {
                   placeholder="EMAIL"
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <div className="flex flex-col w-full items-center justify-center mt-3">
+                <div className="flex flex-col items-center justify-center w-full mt-3">
                   <span
                     className="italic cursor-pointer"
                     onClick={() => sendOtp()}
@@ -154,7 +173,7 @@ export function ForgotPassPage() {
             <BackButton />
             <div className="px-12 mt-6">
               <div>
-                <h3 className="h3-title h3-title-long tracking-wide">
+                <h3 className="tracking-wide h3-title h3-title-long">
                   RESET PASSWORD
                 </h3>
                 <Formik
@@ -177,13 +196,8 @@ export function ForgotPassPage() {
                     return errors;
                   }}
                   onSubmit={(values, { setSubmitting }) => {
-                    setPageOneInputs({
-                      username: values.username,
-                      email: values.email,
-                      password: values.password,
-                    });
+                    setNewPass(values.password);
                     setSubmitting(false);
-                    setIsFlipped(true);
                   }}
                 >
                   {({ isSubmitting }) => (
@@ -196,7 +210,7 @@ export function ForgotPassPage() {
                       />
                       <ErrorMessage name="password">
                         {(msg) => (
-                          <div className="text-red-700 text-sm">{msg}</div>
+                          <div className="text-sm text-red-700">{msg}</div>
                         )}
                       </ErrorMessage>
                       <Field
@@ -206,7 +220,7 @@ export function ForgotPassPage() {
                       />
                       <ErrorMessage name="confpassword">
                         {(msg) => (
-                          <div className="text-red-700 text-sm">{msg}</div>
+                          <div className="text-sm text-red-700">{msg}</div>
                         )}
                       </ErrorMessage>
                       <button

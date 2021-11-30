@@ -1,3 +1,13 @@
 .submit-btn-next {
-    margin-top: 1.5rem !important;
+  margin-top: 1.5rem !important;
+}
+
+.rightSignUp {
+  background: url("../assets/signin_img.png") center center/cover no-repeat;
+  color: #fff;
+  position: relative;
+}
+.login_box .rightSignUp {
+  width: 59%;
+  height: 100%;
 }
