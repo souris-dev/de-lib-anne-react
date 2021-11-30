@@ -43,6 +43,8 @@ export default function BookDescPage() {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [error, setError] = useState("");
 
+  const { username: retrieveUsername } = useContext(LoginContext);
+
   const params = useParams();
   const navigate = useNavigate();
 
@@ -84,6 +86,37 @@ export default function BookDescPage() {
       });
     }
   }, []);
+
+  const tryPostingReview = () => {
+    if (reviewInput == "") {
+      return;
+    }
+    postData(atServiceEndpoint("book_details", "/createreview"), {
+      review: reviewInput,
+      nstars: ratingStarsInput,
+      isbn13: params.bookId,
+    })
+      .then((response) => {
+        if (response.status == 403) {
+          alert("Please sign in first to post a review.");
+          return;
+        }
+        setBookReviews([
+          ...bookReviews,
+          {
+            review: reviewInput,
+            nstars: ratingStarsInput,
+            reviewAuthor: retrieveUsername,
+            _id: response._id,
+          },
+        ]);
+        setReviewInput("");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Sorry there was an error in posting the review.");
+      });
+  };
 
   const tryAddInWishlist = () => {
     if (!isSignedIn) {
@@ -203,12 +236,13 @@ export default function BookDescPage() {
                     </button>
                   )}
                   <span
-                    className={`mt-3 flex flex-col items-end cursor-pointer ${error == "" ? "hidden" : "block"} ${
-                      theme.dark ? "text-red-800" : "text-red-400"
-                      }`}
+                    className={`mt-3 flex flex-col items-end cursor-pointer ${
+                      error == "" ? "hidden" : "block"
+                    } ${theme.dark ? "text-red-800" : "text-red-400"}`}
                     onClick={() => setError("")}
                   >
-                    {error}<span className="block">(Click to hide this message)</span>
+                    {error}
+                    <span className="block">(Click to hide this message)</span>
                   </span>
                 </div>
               </div>
@@ -241,9 +275,10 @@ export default function BookDescPage() {
               </h1>
               <div className="flex flex-col items-end">
                 <textarea
+                  value={reviewInput}
                   rows="1"
                   placeholder="Let us know what you think!"
-                  onChange={(value) => setReviewInput(value)}
+                  onChange={(e) => setReviewInput(e.target.value)}
                   className={`w-full p-4 bg-transparent border-b-2 resize-none ${
                     theme.dark
                       ? "text-gray-200 border-review-inp"
@@ -260,6 +295,7 @@ export default function BookDescPage() {
                     className={`w-24 px-2 py-2 mt-3 font-semibold rounded-lg ${
                       theme.dark ? "border-rev-btn" : "border-rev-btn-light"
                     }`}
+                    onClick={tryPostingReview}
                   >
                     Submit
                   </button>
