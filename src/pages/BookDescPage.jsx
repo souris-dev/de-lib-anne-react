@@ -41,6 +41,7 @@ export default function BookDescPage() {
   const [reviewInput, setReviewInput] = useState("");
 
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [error, setError] = useState("");
 
   const params = useParams();
   const navigate = useNavigate();
@@ -85,6 +86,11 @@ export default function BookDescPage() {
   }, []);
 
   const tryAddInWishlist = () => {
+    if (!isSignedIn) {
+      setError("Sign in to add the book to your wishlist!");
+      return;
+    }
+
     postData(
       atServiceEndpoint("wishlist", "/addwishitem"),
       { isbn13: bookDesc.isbn13 },
@@ -178,7 +184,7 @@ export default function BookDescPage() {
                 ) : (
                   <div className="mt-8"></div>
                 )}
-                <div className="flex">
+                <div className="flex flex-col items-end">
                   {userHasBookInWishlist ? (
                     <button
                       onClick={removeWishlistItem}
@@ -196,6 +202,14 @@ export default function BookDescPage() {
                       Add to wishlist
                     </button>
                   )}
+                  <span
+                    className={`mt-3 flex flex-col items-end cursor-pointer ${error == "" ? "hidden" : "block"} ${
+                      theme.dark ? "text-red-800" : "text-red-400"
+                      }`}
+                    onClick={() => setError("")}
+                  >
+                    {error}<span className="block">(Click to hide this message)</span>
+                  </span>
                 </div>
               </div>
             </div>
